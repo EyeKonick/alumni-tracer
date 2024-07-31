@@ -1,10 +1,8 @@
 <x-guest-layout>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
-
-    <h4 class="text-center font-bold">Login as User</h4>
-
-    <form method="POST" action="{{ route('login') }}">
+    <h2 class="text-center font-bold"> Login as Alumni </h2>
+    <form method="POST" action="{{ route('alumni.login') }}">
         @csrf
 
         <!-- Email Address -->
