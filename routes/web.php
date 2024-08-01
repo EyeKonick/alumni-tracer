@@ -4,6 +4,10 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
+    return view('alumni/welcome');
+});
+
+Route::get('/admin', function () {
     return view('welcome');
 });
 
