@@ -18,7 +18,9 @@ class Alumni extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'middle_name',
+        'last_name',
         'email',
         'password',
     ];
@@ -44,5 +46,14 @@ class Alumni extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function personalData() {
+        return $this->hasOne(PersonalData::class);
+    }
+
+    public function prefessionalData()
+    {
+        return $this->hasMany(ProfessionalData::class);
     }
 }

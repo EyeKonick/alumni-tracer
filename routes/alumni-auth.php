@@ -18,17 +18,17 @@ Route::prefix('alumni')->middleware('guest:alumni')->group(function () {
     Route::get('login', [LoginController::class, 'create'])->name('alumni.login');
     Route::post('login', [LoginController::class, 'store']);
 
-    // Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
-                // ->name('password.request');
+    Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
+                ->name('password.request');
 
-    // Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
-    //             ->name('password.email');
+    Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
+                ->name('password.email');
 
-    // Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])
-    //             ->name('password.reset');
+    Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])
+                ->name('password.reset');
 
-    // Route::post('reset-password', [NewPasswordController::class, 'store'])
-    //             ->name('password.store');
+    Route::post('reset-password', [NewPasswordController::class, 'store'])
+                ->name('password.store');
 });
 
 Route::prefix('alumni')->middleware('auth:alumni')->group(function () {
@@ -38,23 +38,23 @@ Route::prefix('alumni')->middleware('auth:alumni')->group(function () {
     })->name('alumni.dashboard');
 
     Route::post('logout', [LoginController::class, 'destroy'])->name('alumni.logout');
-    
-    // Route::get('verify-email', EmailVerificationPromptController::class)
-    //             ->name('verification.notice');
 
-    // Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
-    //             ->middleware(['signed', 'throttle:6,1'])
-    //             ->name('verification.verify');
+    Route::get('verify-email', EmailVerificationPromptController::class)
+                ->name('verification.notice');
 
-    // Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-    //             ->middleware('throttle:6,1')
-    //             ->name('verification.send');
+    Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
+                ->middleware(['signed', 'throttle:6,1'])
+                ->name('verification.verify');
 
-    // Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
-    //             ->name('password.confirm');
+    Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
+                ->middleware('throttle:6,1')
+                ->name('verification.send');
 
-    // Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
+    Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
+                ->name('password.confirm');
 
-    // Route::put('password', [PasswordController::class, 'update'])->name('password.update');
+    Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
+
+    Route::put('password', [PasswordController::class, 'update'])->name('password.update');
 
 });
