@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('civil_status');
             $table->year('grad_year');
             $table->string('grad_course');
-            $table->string('Major')->nullable();
-            $table->string('adress');
+            $table->string('major')->nullable();
+            $table->string('address');
             $table->string('phone_number', 11);
             $table->rememberToken();
             $table->timestamps();

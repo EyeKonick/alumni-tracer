@@ -7,8 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class PersonalData extends Model
 {
-    use HasFactory;
+    protected $table = 'personal_data';
 
+    protected $guarded = [];
+    
     public function alumni() {
         return $this->belongsTo(Alumni::class);
     }

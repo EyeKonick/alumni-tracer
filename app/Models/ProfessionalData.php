@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProfessionalData extends Model
 {
-    use HasFactory;
+    protected $table = 'professional_data';
+
+    protected $guarded = [];
 
     public function alumni() {
         return $this->belongsTo(Alumni::class);
