@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class ProfessionalData extends Model
 {
     protected $table = 'professional_data';
+    
+    protected $casts = [
+        'skills' => 'array',
+    ];
 
     protected $guarded = [];
 
