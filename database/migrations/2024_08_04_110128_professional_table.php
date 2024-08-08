@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('perfessional_data', function (Blueprint $table) {
+        Schema::create('professional_data', function (Blueprint $table) {
             $table->id();
             $table->foreignId('alumni_id')->constrained('alumnis')->onDelete('cascade');
             $table->string('company_name');
@@ -21,12 +21,6 @@ return new class extends Migration
             $table->string('emplyment_status');
             $table->year('inclusive_from');
             $table->year('inclusive_to');
-            $table->unsignedTinyInteger('age');
-            $table->string('civil_status');
-            $table->string('grad_course');
-            $table->string('Major')->nullable();
-            $table->string('adress');
-            $table->string('phone_number', 11);
             $table->rememberToken();
             $table->timestamps();
         });
