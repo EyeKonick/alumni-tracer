@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AlumniDirectoryController;
+use App\Http\Controllers\AlumniDisplay;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
@@ -35,7 +37,7 @@ Route::middleware('guest')->group(function () {
                 ->name('password.store');
 });
 
-Route::middleware('auth')->group(function () {
+Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('verify-email', EmailVerificationPromptController::class)
                 ->name('verification.notice');
 
@@ -56,4 +58,21 @@ Route::middleware('auth')->group(function () {
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->name('logout');
+
+    Route::get('/alumni-records', function () {
+        return view('alumni-records');
+    })->name('admin.alumni-records');
+
+    Route::get('alumni-directory', [AlumniDirectoryController::class, 'displayAlumni'])->name('admin.alumni-directory');
+
+
+    // Route::get('export-excel', [AlumniExportController::class, 'export'])->name('admin.export-excel');
+
+    Route::get('alumni-directory/{id}', [AlumniDisplay::class, 'show'])->name('admin.alumni.show');
+
+
+
+
+
+
 });

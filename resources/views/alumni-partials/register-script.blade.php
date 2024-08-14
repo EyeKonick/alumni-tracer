@@ -129,48 +129,70 @@
     }
 
     function showPreview() {
-        const previewContent = document.getElementById('confirmation-details');
-        if (!previewContent) return;
+    const previewContent = document.getElementById('confirmation-details');
+    if (!previewContent) return;
 
-        // Build the preview content
-        const formData = {
-            firstName: document.getElementById('first_name') ? document.getElementById('first_name').value : '',
-            middleName: document.getElementById('middle_name') ? document.getElementById('middle_name').value : '',
-            lastName: document.getElementById('last_name') ? document.getElementById('last_name').value : '',
-            email: document.getElementById('email') ? document.getElementById('email').value : '',
-            gender: document.getElementById('gender') ? document.getElementById('gender').value : '',
-            age: document.getElementById('age') ? document.getElementById('age').value : '',
-            civilStatus: document.getElementById('civil_status') ? document.getElementById('civil_status').value : '',
-            year: document.getElementById('year_select') ? (document.getElementById('year_select').value !== 'other' ? document.getElementById('year_select').value : document.getElementById('year_input').value) : '',
-            course: document.getElementById('grad_course') ? document.getElementById('grad_course').value : '',
-            major: document.getElementById('major') ? document.getElementById('major').value : '',
-            address: document.getElementById('address') ? document.getElementById('address').value : '',
-            phoneNumber: document.getElementById('phone_number') ? document.getElementById('phone_number').value : '',
-            skills: Array.from(document.querySelectorAll('input[name="skills[]"]:checked')).map(checkbox => checkbox.nextElementSibling.textContent).join(', '),
-            companyName: document.getElementById('company_name') ? document.getElementById('company_name').value : '',
-            companyAddress: document.getElementById('company_address') ? document.getElementById('company_address').value : '',
-            presentPosition: document.getElementById('present_position') ? document.getElementById('present_position').value : '',
-            monthlyIncome: document.getElementById('monthly_income') ? document.getElementById('monthly_income').value : '',
-            employmentStatus: document.getElementById('employment_status') ? document.getElementById('employment_status').value : '',
-            inclusiveFrom: document.getElementById('inclusive_from_select') ? (document.getElementById('inclusive_from_select').value !== 'other' ? document.getElementById('inclusive_from_select').value : document.getElementById('inclusive_from_input').value) : '',
-            inclusiveTo: document.getElementById('inclusive_to_select') ? (document.getElementById('inclusive_to_select').value !== 'other' ? document.getElementById('inclusive_to_select').value : document.getElementById('inclusive_to_input').value) : '',
-            question1: document.querySelector('input[name="question1"]:checked') ? document.querySelector('input[name="question1"]:checked').value : '',
-            question1Answer: document.getElementById('question1_answer') ? document.getElementById('question1_answer').value : '',
-            challenges: Array.from(document.querySelectorAll('input[name="challenges[]"]:checked')).map(checkbox => checkbox.nextElementSibling.textContent).join(', '),
-            suggestions: document.getElementById('suggestions') ? document.getElementById('suggestions').value : '',
-            filePath: document.getElementById('file') ? document.getElementById('file').files[0] ? document.getElementById('file').files[0].name : '' : ''
-        };
+    // Build the preview content
+    const formData = {
+        'First Name': document.getElementById('first_name') ? document.getElementById('first_name').value : '',
+        'Middle Name': document.getElementById('middle_name') ? document.getElementById('middle_name').value : '',
+        'Last Name': document.getElementById('last_name') ? document.getElementById('last_name').value : '',
+        'Email': document.getElementById('email') ? document.getElementById('email').value : '',
+        'Gender': document.getElementById('gender') ? document.getElementById('gender').value : '',
+        'Age': document.getElementById('age') ? document.getElementById('age').value : '',
+        'Civil Status': document.getElementById('civil_status') ? document.getElementById('civil_status').value : '',
+        'Year of Graduation': document.getElementById('year_select') ? (document.getElementById('year_select').value !== 'other' ? document.getElementById('year_select').value : document.getElementById('year_input').value) : '',
+        'Course': document.getElementById('grad_course') ? document.getElementById('grad_course').value : '',
+        'Major': document.getElementById('major') ? document.getElementById('major').value : '',
+        'Address': document.getElementById('address') ? document.getElementById('address').value : '',
+        'Phone Number': document.getElementById('phone_number') ? document.getElementById('phone_number').value : '',
+        'Skills': Array.from(document.querySelectorAll('input[name="skills[]"]:checked')).map(checkbox => checkbox.nextElementSibling.textContent).join(', '),
+        'Company Name': document.getElementById('company_name') ? document.getElementById('company_name').value : '',
+        'Company Address': document.getElementById('company_address') ? document.getElementById('company_address').value : '',
+        'Present Position': document.getElementById('present_position') ? document.getElementById('present_position').value : '',
+        'Monthly Income': document.getElementById('monthly_income') ? document.getElementById('monthly_income').value : '',
+        'Employment Status': document.getElementById('employment_status') ? document.getElementById('employment_status').value : '',
+        'Inclusive From': document.getElementById('inclusive_from_select') ? (document.getElementById('inclusive_from_select').value !== 'other' ? document.getElementById('inclusive_from_select').value : document.getElementById('inclusive_from_input').value) : '',
+        'Inclusive To': document.getElementById('inclusive_to_select') ? (document.getElementById('inclusive_to_select').value !== 'other' ? document.getElementById('inclusive_to_select').value : document.getElementById('inclusive_to_input').value) : '',
+        'Question 1': document.querySelector('input[name="question1"]:checked') ? document.querySelector('input[name="question1"]:checked').value : '',
+        'Question 1 Answer': document.getElementById('question1_answer') ? document.getElementById('question1_answer').value : '',
+        'Challenges': Array.from(document.querySelectorAll('input[name="challenges[]"]:checked')).map(checkbox => checkbox.nextElementSibling.textContent).join(', '),
+        'Suggestions': document.getElementById('suggestions') ? document.getElementById('suggestions').value : '',
+        'File Path': document.getElementById('file') ? document.getElementById('file').files[0] ? document.getElementById('file').files[0].name : '' : ''
+    };
 
-        // Clear previous preview content
-        previewContent.innerHTML = '';
+    // Clear previous preview content
+    previewContent.innerHTML = '';
 
-        // Append new preview content
-        Object.entries(formData).forEach(([key, value]) => {
-            const p = document.createElement('p');
-            p.textContent = `${key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}: ${value}`;
-            previewContent.appendChild(p);
-        });
-    }
+    // Create container for two columns
+    const container = document.createElement('div');
+    container.className = 'grid grid-cols-1 sm:grid-cols-2 gap-4';
+
+    // Append new preview content in two columns
+    Object.entries(formData).forEach(([key, value], index) => {
+        const p = document.createElement('p');
+        p.className = 'mb-2 text-gray-700';
+        p.innerHTML = `<span class="font-semibold">${key}:</span> ${value}`;
+
+        // Add content to columns
+        if (index % 2 === 0) {
+            // Append to the left column
+            const col1 = document.createElement('div');
+            col1.className = 'col-span-1';
+            col1.appendChild(p);
+            container.appendChild(col1);
+        } else {
+            // Append to the right column
+            const col2 = document.createElement('div');
+            col2.className = 'col-span-1';
+            col2.appendChild(p);
+            container.appendChild(col2);
+        }
+    });
+
+    previewContent.appendChild(container);
+}
+
 
     // Navigation Buttons
     const nextToPersonal = document.getElementById('next-to-personal');
@@ -251,5 +273,32 @@
     handleYearChange();
     showStep(currentStep);
 });
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('submit-form').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        // You may want to perform form validation or AJAX submission here
+
+        // Simulate form submission and success
+        setTimeout(function() {
+            alert('You submitted your form successfully');
+            document.getElementById('registration-form').submit(); // Submit the form after showing the alert
+        }, 500); // Adjust delay as needed
+    });
+
+    // Handle the "Previous" button
+    document.getElementById('prev-to-professional').addEventListener('click', function() {
+        // Logic to navigate to the previous step
+    });
+
+    // Handle the "Edit" button
+    document.getElementById('edit-form').addEventListener('click', function() {
+        // Logic to edit the form
+    });
+});
+
+
 
 </script>

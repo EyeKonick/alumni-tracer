@@ -1,17 +1,15 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+            {{ __('CAPIZ STATE UNIVERSITY MAMBUSAO SATELLITE COLLEGE') }}
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
-                </div>
-            </div>
+    <main class="container flex items-center justify-center w-full h-full">
+        <div class="text-center gap-4">
+            <a href="#" class="block mb-4 text-2xl text-white bg-black bg-opacity-60 py-8 px-12 rounded-full font-bold">MANAGE ACCOUNT</a>
+            <a href="{{ route('admin.alumni-records') }}" class="block mb-4 text-2xl text-white bg-black bg-opacity-60 py-8 px-12 rounded-full font-bold">ALUMNI RECORDS</a>
         </div>
-    </div>
+    </main>
+
 </x-app-layout>

@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@font-face {
+    font-family: 'Dangwa';
+    src: url('/fonts/Dangwa.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+.background-image {
+    background: linear-gradient(to right, rgba(72, 194, 217, 0.75), rgba(230, 218, 141, 0.75)),
+                url('/images/bg.jpg'); /* Adjust path as needed */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Optional: To keep the background fixed during scroll */
+}
+
