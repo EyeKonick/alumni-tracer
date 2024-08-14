@@ -48,12 +48,18 @@ class Alumni extends Authenticatable
         ];
     }
 
-    public function personalData() {
+    public function personalData()
+    {
         return $this->hasOne(PersonalData::class);
     }
 
-    public function prefessionalData()
+    public function professionalData()
     {
-        return $this->hasMany(ProfessionalData::class);
+        return $this->hasOne(ProfessionalData::class);
+    }
+
+    public function surveyData()
+    {
+        return $this->hasOne(SurveyData::class);
     }
 }

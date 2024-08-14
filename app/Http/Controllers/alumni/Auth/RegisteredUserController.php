@@ -7,17 +7,16 @@ use App\Models\Alumni;
 use App\Models\Course;
 use App\Models\Gender;
 use Illuminate\View\View;
+use App\Models\Challenges;
 use App\Models\SurveyData;
 use App\Models\PersonalData;
 use Illuminate\Http\Request;
 use App\Models\ProfessionalData;
-use Illuminate\Validation\Rules;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Auth\Events\Registered;
-use App\Models\Survey; // Add this line
 
 class RegisteredUserController extends Controller
 {
@@ -29,7 +28,8 @@ class RegisteredUserController extends Controller
         $genders = Gender::all();
         $courses = Course::all();
         $skills = Skill::all();
-        return view('alumni.auth.register', compact('genders', 'courses', 'skills'));
+        $challenges = Challenges::all();
+        return view('alumni.auth.register', compact('genders', 'courses', 'skills', 'challenges'));
     }
 
     /**
@@ -41,13 +41,37 @@ class RegisteredUserController extends Controller
     {
         // Validation rules
         $request->validate([
-            // Existing validation rules
+            'first_name' => 'required|string|max:255',
+            'middle_name' => 'nullable|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:alumnis,email',
+            'password' => 'required|string|min:8|confirmed',
+            'gender' => 'required|string',
+            'age' => 'nullable|integer',
+            'civil_status' => 'nullable|string',
+            'grad_year' => 'nullable|integer',
+            'grad_course' => 'nullable|string',
+            'major' => 'nullable|string',
+            'address' => 'nullable|string',
+            'phone_number' => 'nullable|string',
+            'company_name' => 'nullable|string',
+            'company_address' => 'nullable|string',
+            'present_position' => 'nullable|string',
+            'monthly_income' => 'nullable|numeric',
+            'employment_status' => 'nullable|string',
+            'inclusive_from' => 'nullable|integer',
+            'inclusive_to' => 'nullable|integer',
+            'skills' => 'nullable|array',
+            'skills.*' => 'string',
             'question1' => ['required', 'in:Yes,No'],
-            'question1_answer' => ['nullable', 'string'],
-            'challenges' => 'array',
+            'question1_answer' => 'nullable|string',
+            'challenges' => 'nullable|array',
             'challenges.*' => 'string',
-            'suggestions' => ['nullable', 'string'],
-            'file_path' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf,doc,docx'], // Adjust as needed
+            'suggestions' => 'nullable|string',
+            'file_path' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx',
+        ], [
+            'email.unique' => 'The email address is already taken. Please use a different email.',
+            'password.confirmed' => 'The password confirmation does not match.',
         ]);
 
         // Create Alumni
@@ -85,12 +109,13 @@ class RegisteredUserController extends Controller
             'skills' => $request->input('skills', []),
         ]);
 
-        // Create Survey
+        // Handle File Upload
         $filePath = null;
         if ($request->hasFile('file_path')) {
             $filePath = $request->file('file_path')->store('survey_files');
         }
 
+        // Create Survey
         SurveyData::create([
             'alumni_id' => $alumni->id,
             'question1' => $request->question1,
@@ -105,6 +130,4 @@ class RegisteredUserController extends Controller
 
         return redirect(route('alumni.dashboard', absolute: false));
     }
-
-
 }

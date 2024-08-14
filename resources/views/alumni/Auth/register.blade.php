@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <h2 class="text-center font-bold">Register as Alumni</h2>
+    <h2 class="text-center font-bold text-2xl mb-8">Register as Alumni</h2>
 
     <form method="POST" action="{{ route('alumni.register') }}" id="registration-form">
         @csrf
