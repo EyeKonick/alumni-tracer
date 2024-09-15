@@ -296,15 +296,29 @@
                         <div class="flex items-center">
                             <input type="radio" id="degree_skills_in_line_yes" name="degree_skills_in_line" value="1"
                                    class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
-                                   {{ old('degree_skills_in_line') == '1' ? 'checked' : '' }} />
+                                   {{ old('degree_skills_in_line') == '1' ? 'checked' : '' }}
+                                   onclick="toggleTextArea(false)" />
                             <label for="degree_skills_in_line_yes" class="ml-2 block text-sm text-gray-900">Yes</label>
                         </div>
                         <div class="flex items-center">
                             <input type="radio" id="degree_skills_in_line_no" name="degree_skills_in_line" value="0"
                                    class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
-                                   {{ old('degree_skills_in_line') == '0' ? 'checked' : '' }} />
+                                   {{ old('degree_skills_in_line') == '0' ? 'checked' : '' }}
+                                   onclick="toggleTextArea(true)" />
                             <label for="degree_skills_in_line_no" class="ml-2 block text-sm text-gray-900">No</label>
                         </div>
+                    </div>
+                    <div id="additional_info" class="mt-4 hidden">
+                        <label for="additional_info_text" class="block text-sm font-medium text-gray-700">
+                            If NO, why not
+                        </label>
+                        <textarea id="additional_info_text" name="additional_info_text" rows="4"
+                                  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500">
+                            {{ old('additional_info_text') }}
+                        </textarea>
+                        @error('additional_info_text')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
                     @error('degree_skills_in_line')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -366,6 +380,22 @@
     </div>
 
     <script>
+
+        function toggleTextArea(show) {
+                const additionalInfo = document.getElementById('additional_info');
+                if (show) {
+                    additionalInfo.classList.remove('hidden');
+                } else {
+                    additionalInfo.classList.add('hidden');
+                }
+            }
+
+            // Initialize the state based on the preselected option if any
+            document.addEventListener('DOMContentLoaded', function() {
+                const isNoSelected = document.getElementById('degree_skills_in_line_no').checked;
+                toggleTextArea(isNoSelected);
+            });
+
         document.addEventListener('DOMContentLoaded', function () {
             const steps = document.querySelectorAll('.step');
             let currentStep = 0;
