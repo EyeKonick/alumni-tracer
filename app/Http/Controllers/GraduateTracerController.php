@@ -18,21 +18,17 @@ class GraduateTracerController extends Controller
         $totalGraduates = 0;
         $totalEmployed = 0;
 
-        // Iterate over each course and gather employment stats
         foreach ($courses as $course) {
-            // Count the number of graduates for the current course
             $graduates = PersonalData::where('course_graduated_id', $course->id)->count();
 
-            // Count the number of employed graduates for the current course
             $employed = ProfessionalData::whereIn('alumni_id', function ($query) use ($course) {
                 $query->select('id')
                       ->from('personal_data')
                       ->where('course_graduated_id', $course->id);
             })
-            ->whereIn('employment_status_id', [1, 2]) // Assuming 1 = 'casual' and 2 = 'regular'
+            ->whereIn('employment_status_id', [1, 2])
             ->count();
 
-            // Calculate the employment percentage, handling divide by zero
             $percentageEmployed = $graduates > 0 ? ($employed / $graduates) * 100 : 0;
 
             // Append data for this course

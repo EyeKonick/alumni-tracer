@@ -32,7 +32,6 @@ class SurveyController extends Controller
 
     public function submitAlumniSurveyForm(Request $request)
     {
-        // Validate the form inputs
         $request->validate([
             // Personal Data Validation
             'first_name' => 'required|string|max:255',
@@ -62,6 +61,7 @@ class SurveyController extends Controller
 
             // Alumni Survey Validation
             'degree_skills_in_line' => 'required|boolean',
+            'additional_info_text' => 'nullable|string',
             'challenges_faced' => 'required|array',
             'challenges_faced.*' => 'exists:challenges,id',
             'suggestions' => 'required|string',
@@ -80,7 +80,6 @@ class SurveyController extends Controller
         $professionalData->alumni_id = $personalData->id;
         $professionalData->save();
 
-        // Sync skills used with professional data
         $professionalData->skills()->sync($request->input('skills_used'));
 
         $filePath = null;
@@ -91,14 +90,16 @@ class SurveyController extends Controller
         $alumniSurvey = new AlumniSurvey([
             'alumni_id' => $personalData->id,
             'degree_skills_in_line' => $request->degree_skills_in_line,
+            'additional_info_text' => $request->additional_info_text,
             'suggestions' => $request->suggestions,
             'document_path' => $filePath,
-            'challenges_faced' => $request->input('challenges_faced'), // Save the array directly
+            'challenges_faced' => $request->input('challenges_faced'),
         ]);
         $alumniSurvey->save();
 
         return redirect()->route('survey.complete');
     }
+
 
     public function completeSurvey()
     {

@@ -12,14 +12,12 @@ class AlumniEmployabilityController extends Controller
     {
         $query = PersonalData::with(['professionalData.employmentStatus', 'courseGraduated']);
 
-        // Apply course filter if provided
         if ($request->has('course') && $request->input('course') !== 'all') {
             $query->whereHas('courseGraduated', function ($query) use ($request) {
                 $query->where('course_name', $request->input('course'));
             });
         }
 
-        // Apply employment status filter if provided
         if ($request->has('employment_status') && $request->input('employment_status') !== 'all') {
             $status = $request->input('employment_status');
             $query->whereHas('professionalData', function ($query) use ($status) {
@@ -29,22 +27,17 @@ class AlumniEmployabilityController extends Controller
             });
         }
 
-        // Define allowed sort directions
         $allowedSortDirections = ['asc', 'desc'];
 
-        // Apply sorting for last name
         $sortLastName = $request->input('sort_last_name');
         if ($sortLastName && in_array($sortLastName, $allowedSortDirections)) {
             $query->orderBy('last_name', $sortLastName);
         }
 
-        // Apply sorting for year graduated
         $sortYearGraduated = $request->input('sort_year_graduated');
         if ($sortYearGraduated && in_array($sortYearGraduated, $allowedSortDirections)) {
             $query->orderBy('year_graduated', $sortYearGraduated);
         }
-
-        // Apply sorting for employment status
         $sortEmploymentStatus = $request->input('sort_employment_status');
         if ($sortEmploymentStatus && in_array($sortEmploymentStatus, $allowedSortDirections)) {
             $query->join('professional_data', 'personal_data.id', '=', 'professional_data.personal_data_id')
@@ -54,7 +47,6 @@ class AlumniEmployabilityController extends Controller
 
         $alumniData = $query->paginate(15);
 
-        // Retrieve distinct course names and employment statuses for filter options
         $courses = PersonalData::with('courseGraduated')
             ->get()
             ->pluck('courseGraduated.course_name')
@@ -85,22 +77,19 @@ class AlumniEmployabilityController extends Controller
                     });
             });
 
-        // Define allowed sort directions
         $allowedSortDirections = ['asc', 'desc'];
 
-        // Apply sorting for last name
+
         $sortLastName = $request->input('sort_last_name');
         if ($sortLastName && in_array($sortLastName, $allowedSortDirections)) {
             $query->orderBy('last_name', $sortLastName);
         }
 
-        // Apply sorting for year graduated
         $sortYearGraduated = $request->input('sort_year_graduated');
         if ($sortYearGraduated && in_array($sortYearGraduated, $allowedSortDirections)) {
             $query->orderBy('year_graduated', $sortYearGraduated);
         }
 
-        // Apply sorting for employment status
         $sortEmploymentStatus = $request->input('sort_employment_status');
         if ($sortEmploymentStatus && in_array($sortEmploymentStatus, $allowedSortDirections)) {
             $query->join('professional_data', 'personal_data.id', '=', 'professional_data.personal_data_id')
@@ -110,7 +99,6 @@ class AlumniEmployabilityController extends Controller
 
         $alumniData = $query->paginate(10);
 
-        // Retrieve distinct course names and employment statuses for filter options
         $courses = PersonalData::with('courseGraduated')
             ->get()
             ->pluck('courseGraduated.course_name')

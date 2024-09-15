@@ -13,10 +13,11 @@ class AlumniSurvey extends Model
         'suggestions',
         'document_path',
         'challenges_faced',
+        'additional_info_text',
     ];
 
     protected $casts = [
         'degree_skills_in_line' => 'boolean',
-        'challenges_faced' => 'array', // Cast the JSON column to an array
+        'challenges_faced' => 'array',
     ];
 }
