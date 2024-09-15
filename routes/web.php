@@ -1,15 +1,21 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SurveyController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\GraduateTracerController;
+use App\Http\Controllers\AlumniDirectoryController;
+use App\Http\Controllers\AlumniEmployabilityController;
 
 Route::get('/', function () {
-    return view('alumni/welcome');
-});
-
-Route::get('/admin', function () {
     return view('welcome');
 });
+
+Route::get('/survey', [SurveyController::class, 'showSurveyForm'])->name('survey.show');
+Route::post('/survey', [SurveyController::class, 'submitAlumniSurveyForm'])->name('survey.submit');
+
+Route::get('/survey/complete', [SurveyController::class, 'completeSurvey'])->name('survey.complete');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -21,5 +27,15 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/alumni-directory', [AlumniDirectoryController::class, 'index'])->name('alumni.directory');
+Route::get('/alumni/search', [AlumniDirectoryController::class, 'search'])->name('alumni.search');
+
+Route::get('/employability-tracer-data', [AlumniEmployabilityController::class, 'showEmployabilityTracerData'])->name('alumni.employability');
+Route::get('/employability-tracer-data/search', [AlumniEmployabilityController::class, 'search'])->name('alumni.search');
+Route::get('/employability', [AlumniEmployabilityController::class, 'showEmployabilityTracerData'])
+    ->name('alumni.showEmployabilityTracerData');
+
+Route::get('/graduate-tracer-data', [GraduateTracerController::class, 'index'])->name('graduate.tracer.data');
+
+
 require __DIR__.'/auth.php';
-require __DIR__.'/alumni-auth.php';

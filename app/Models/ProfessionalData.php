@@ -7,15 +7,39 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProfessionalData extends Model
 {
-    protected $table = 'professional_data';
-    
-    protected $casts = [
-        'skills' => 'array',
+    use HasFactory;
+
+    protected $fillable = [
+        'company_name',
+        'company_address',
+        'address',
+        'employer',
+        'employer_address',
+        'employment_status_id',
+        'present_position',
+        'inclusive_from',
+        'inclusive_to',
+        'monthly_income_id',
+        'skills_used'
     ];
 
-    protected $guarded = [];
-
-    public function alumni() {
-        return $this->belongsTo(Alumni::class);
+    public function employmentStatus()
+    {
+        return $this->belongsTo(EmploymentStatus::class, 'employment_status_id');
     }
+
+    public function monthlyIncome()
+    {
+        return $this->belongsTo(MonthlyIncome::class);
+    }
+
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class, 'professional_data_skill', 'professional_data_id', 'skill_id');
+    }
+    public function personalData()
+    {
+        return $this->belongsTo(PersonalData::class, 'alumni_id');
+    }
+
 }

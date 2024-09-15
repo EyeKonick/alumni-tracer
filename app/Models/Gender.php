@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Gender extends Model
 {
-    protected $table = 'genders';
+    use HasFactory;
 
+    protected $fillable = ['name'];
+
+    public function personalData()
+    {
+        return $this->hasMany(PersonalData::class);
+    }
 }

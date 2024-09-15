@@ -4,30 +4,20 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class ChallengesTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run()
     {
-        $challenges = [
-            'Job Hunting',
-            'Employment Interview',
-            'Work Environment',
-            'Management and peer relationship',
-            'Promotion',
-            'Personal Problem',
-            'Career Development',
-            'Work life balance',
-        ];
-
-        foreach ($challenges as $challenge) {
-            DB::table('challenges')->insert([
-                'name' => $challenge
-            ]);
-        }
+        DB::table('challenges')->insert([
+            ['challenge_name' => 'Job Hunting'],
+            ['challenge_name' => 'Employment Interview'],
+            ['challenge_name' => 'Work Environment'],
+            ['challenge_name' => 'Management and Peer Relationship'],
+            ['challenge_name' => 'Promotion'],
+            ['challenge_name' => 'Personal Problem'],
+            ['challenge_name' => 'Career Development'],
+            ['challenge_name' => 'Work Life Balance'],
+        ]);
     }
 }
