@@ -45,6 +45,9 @@ class PersonalData extends Model
     {
         return $this->belongsTo(Course::class, 'course_graduated_id');
     }
-
+    public function alumniSurvey()
+    {
+        return $this->hasOne(AlumniSurvey::class, 'alumni_id');
+    }
 
 }

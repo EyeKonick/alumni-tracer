@@ -2,6 +2,7 @@
 
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AlumniController;
 use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GraduateTracerController;
@@ -36,6 +37,16 @@ Route::get('/employability', [AlumniEmployabilityController::class, 'showEmploya
     ->name('alumni.showEmployabilityTracerData');
 
 Route::get('/graduate-tracer-data', [GraduateTracerController::class, 'index'])->name('graduate.tracer.data');
+
+// Edit Alumni Route (Displays the edit form)
+Route::get('/alumni/{id}/edit', [AlumniController::class, 'edit'])->name('alumni.edit');
+
+// Update Alumni Route (Handles form submission)
+Route::put('/alumni/{id}', [AlumniController::class, 'update'])->name('alumni.update');
+
+// Delete Alumni Route (Deletes the record)
+Route::delete('/alumni/{id}', [AlumniController::class, 'destroy'])->name('alumni.delete');
+
 
 
 require __DIR__.'/auth.php';
