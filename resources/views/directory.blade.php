@@ -51,12 +51,12 @@
                             </button>
 
                             <!-- Export to Excel Button -->
-                            <button onclick="alert('Export to Excel functionality not yet implemented')" class="inline-flex items-center px-3 py-1 text-white bg-green-600 hover:bg-green-700 rounded-md">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <a href="{{ route('alumni.export') }}" class="inline-flex items-center px-4 py-2 text-white bg-green-600 hover:bg-green-700 rounded-md shadow-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM6 2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4a2 2 0 012-2zM10 14l2 2 2-2m-2-6v6" />
                                 </svg>
-                                <span class="ml-1 text-xs">Export</span>
-                            </button>
+                                <span class="ml-2 text-sm">Export</span>
+                            </a>
                         </div>
                     </div>
 

@@ -405,8 +405,6 @@
                     @enderror
                 </div>
 
-
-
                 <!-- Navigation Buttons -->
                 <div class="flex justify-between mt-6">
                     <button type="button" class="bg-gray-500 text-white px-6 py-2 rounded-md" id="prev2">Previous</button>
@@ -472,7 +470,6 @@
                 return valid;
             }
 
-
             document.getElementById('next1').addEventListener('click', function () {
                 if (validateStep(currentStep)) {
                     currentStep++;
@@ -496,7 +493,6 @@
                 currentStep--;
                 showStep(currentStep);
             });
-
 
             showStep(currentStep);
         });
