@@ -138,7 +138,11 @@
                     <div class="mt-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4" role="alert">
                         <p class="font-bold">Reminder</p>
                         <p>It looks like there are some errors in your input. Please review and correct the fields marked in red.</p>
+<<<<<<< Updated upstream
                         <p class="font-bold">{{ @errors }}</p>
+=======
+                        <p class="font-bold">{{ $errors }}</p>
+>>>>>>> Stashed changes
                     </div>
                 @endif
 
@@ -160,9 +164,9 @@
                         <span class="ml-2">Is Employed? if not leave it blank!</span>
                     </label>
                 </div>
-    
+
                 <div id="employment_status_section" style="display: none;">
-                    
+
                     <div>
                         <label class="inline-flex items-center">
                             <input type="checkbox" id="is_traced" name="is_traced" value="1" {{ old('is_traced') ? 'checked' : '' }}>
