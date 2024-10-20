@@ -155,7 +155,7 @@
 
                 <div>
                     <label class="inline-flex items-center">
-                        <input type="checkbox" id="is_employed" name="is_employed" class="form-checkbox">
+                        <input type="checkbox" id="is_employed" name="is_employed" value="1" {{ old('is_employed') ? 'checked' : '' }}>
                         <span class="ml-2">Is Employed? if not leave it blank!</span>
                     </label>
                 </div>
@@ -164,7 +164,7 @@
                     
                     <div>
                         <label class="inline-flex items-center">
-                            <input type="checkbox" name="is_traced" class="form-checkbox">
+                            <input type="checkbox" id="is_traced" name="is_traced" value="1" {{ old('is_traced') ? 'checked' : '' }}>
                             <span class="ml-2">Is Traced? If not leave it blank!</span>
                         </label>
                     </div>
