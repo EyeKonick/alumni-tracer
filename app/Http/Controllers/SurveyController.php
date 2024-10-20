@@ -51,7 +51,9 @@ class SurveyController extends Controller
             'company_address' => 'required|string',
             'employer' => 'required|string|max:255',
             'employer_address' => 'required|string',
-            'employment_status_id' => 'required|exists:employment_statuses,id',
+            'is_employed' => 'boolean',
+            'is_traced' => 'boolean',
+            'employment_status_id' => 'nullable|required_if:is_employed,true|exists:employment_statuses,id',
             'present_position' => 'required|string|max:255',
             'inclusive_from' => 'required|integer',
             'inclusive_to' => 'required|integer|gte:inclusive_from',
@@ -66,6 +68,8 @@ class SurveyController extends Controller
             'challenges_faced.*' => 'exists:challenges,id',
             'suggestions' => 'required|string',
             'document_path' => 'nullable|file|mimes:pdf,doc,docx,jpg,png',
+            'document_path_2' => 'nullable|file|mimes:pdf,doc,docx,jpg,png',
+            'document_path_3' => 'nullable|file|mimes:pdf,doc,docx,jpg,png',
         ]);
 
         $personalData = PersonalData::create($request->only([
@@ -74,7 +78,7 @@ class SurveyController extends Controller
         ]));
 
         $professionalData = new ProfessionalData($request->only([
-            'company_name', 'company_address', 'employer', 'employer_address', 'employment_status_id',
+            'company_name', 'company_address', 'employer', 'employer_address', 'is_employed', 'is_traced', 'employment_status_id',
             'present_position', 'inclusive_from', 'inclusive_to', 'monthly_income_id'
         ]));
         $professionalData->alumni_id = $personalData->id;
@@ -82,9 +86,16 @@ class SurveyController extends Controller
 
         $professionalData->skills()->sync($request->input('skills_used'));
 
-        $filePath = null;
+        // Handle document uploads
+        $documentPaths = [];
         if ($request->hasFile('document_path')) {
-            $filePath = $request->file('document_path')->store('documents', 'public');
+            $documentPaths['document_path'] = $request->file('document_path')->store('documents', 'public');
+        }
+        if ($request->hasFile('document_path_2')) {
+            $documentPaths['document_path_2'] = $request->file('document_path_2')->store('documents', 'public');
+        }
+        if ($request->hasFile('document_path_3')) {
+            $documentPaths['document_path_3'] = $request->file('document_path_3')->store('documents', 'public');
         }
 
         $alumniSurvey = new AlumniSurvey([
@@ -92,13 +103,17 @@ class SurveyController extends Controller
             'degree_skills_in_line' => $request->degree_skills_in_line,
             'additional_info_text' => $request->additional_info_text,
             'suggestions' => $request->suggestions,
-            'document_path' => $filePath,
+            'document_path' => $documentPaths['document_path'] ?? null,
+            'document_path_2' => $documentPaths['document_path_2'] ?? null,
+            'document_path_3' => $documentPaths['document_path_3'] ?? null,
             'challenges_faced' => $request->input('challenges_faced'),
         ]);
         $alumniSurvey->save();
 
         return redirect()->route('survey.complete');
     }
+
+
 
 
     public function completeSurvey()

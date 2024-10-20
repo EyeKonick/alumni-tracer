@@ -12,6 +12,8 @@ class AlumniSurvey extends Model
         'degree_skills_in_line',
         'suggestions',
         'document_path',
+        'document_path_2',
+        'document_path_3',
         'challenges_faced',
         'additional_info_text',
     ];

@@ -29,11 +29,11 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/alumni-directory', [AlumniDirectoryController::class, 'index'])->name('alumni.directory');
 Route::get('/alumni/search', [AlumniDirectoryController::class, 'search'])->name('alumni.search');
+Route::get('/alumni/export', [AlumniDirectoryController::class, 'exportAlumniAsExcel'])->name('alumni.export');
 
 Route::get('/employability-tracer-data', [AlumniEmployabilityController::class, 'showEmployabilityTracerData'])->name('alumni.employability');
 Route::get('/employability-tracer-data/search', [AlumniEmployabilityController::class, 'search'])->name('alumni.search');
-Route::get('/employability', [AlumniEmployabilityController::class, 'showEmployabilityTracerData'])
-    ->name('alumni.showEmployabilityTracerData');
+Route::get('/employability', [AlumniEmployabilityController::class, 'showEmployabilityTracerData'])->name('alumni.showEmployabilityTracerData');
 
 Route::get('/graduate-tracer-data', [GraduateTracerController::class, 'index'])->name('graduate.tracer.data');
 

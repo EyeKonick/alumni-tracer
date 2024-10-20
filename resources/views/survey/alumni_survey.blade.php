@@ -198,9 +198,24 @@
                         </div>
 
                         <!-- Employment Status -->
+
                         <div>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" id="is_employed" name="is_employed" class="form-checkbox">
+                                <span class="ml-2">Is Employed? If not, leave it blank.</span>
+                            </label>
+                        </div>
+
+                        <div>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" name="is_traced" class="form-checkbox">
+                                <span class="ml-2">Not Traced?</span>
+                            </label>
+                        </div>
+
+                        <div id="employment_status_section" style="display: none;">
                             <label for="employment_status_id" class="block text-sm font-medium text-gray-700">Employment Status</label>
-                            <select id="employment_status_id" name="employment_status_id" class="mt-1 block w-full p-3 border rounded-md @error('employment_status_id') border-red-500 @enderror" required>
+                            <select id="employment_status_id" name="employment_status_id" class="mt-1 block w-full p-3 border rounded-md @error('employment_status_id') border-red-500 @enderror">
                                 <option value="">Select Status</option>
                                 @foreach($employmentStatuses as $status)
                                     <option value="{{ $status->id }}" {{ old('employment_status_id') == $status->id ? 'selected' : '' }}>{{ $status->status_name }}</option>
@@ -369,6 +384,24 @@
                     @enderror
                 </div>
 
+                <!-- Document Upload 2 -->
+                <div class="mb-6">
+                    <label for="document_path" class="block text-sm font-medium text-gray-700">Upload Supporting Document (Optional)</label>
+                    <input type="file" id="document_path_2" name="document_path_2" class="mt-1 block w-full p-3 border rounded-md @error('document_path_2') border-red-500 @enderror">
+                    @error('document_path_2')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Document Upload 3 -->
+                <div class="mb-6">
+                    <label for="document_path" class="block text-sm font-medium text-gray-700">Upload Supporting Document (Optional)</label>
+                    <input type="file" id="document_path_3" name="document_path_3" class="mt-1 block w-full p-3 border rounded-md @error('document_path_3') border-red-500 @enderror">
+                    @error('document_path_3')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 <!-- Navigation Buttons -->
                 <div class="flex justify-between mt-6">
                     <button type="button" class="bg-gray-500 text-white px-6 py-2 rounded-md" id="prev2">Previous</button>
@@ -397,6 +430,17 @@
             });
 
         document.addEventListener('DOMContentLoaded', function () {
+
+            document.getElementById('is_employed').addEventListener('change', function() {
+                var employmentStatusSection = document.getElementById('employment_status_section');
+                if (this.checked) {
+                    employmentStatusSection.style.display = 'block';
+                } else {
+                    employmentStatusSection.style.display = 'none';
+                }
+            });
+
+
             const steps = document.querySelectorAll('.step');
             let currentStep = 0;
 
@@ -423,6 +467,7 @@
                 return valid;
             }
 
+            
             document.getElementById('next1').addEventListener('click', function () {
                 if (validateStep(currentStep)) {
                     currentStep++;
@@ -447,7 +492,8 @@
                 showStep(currentStep);
             });
 
-            showStep(currentStep); // Show the first step initially
+            
+            showStep(currentStep);
         });
     </script>
 </body>

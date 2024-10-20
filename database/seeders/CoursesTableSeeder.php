@@ -15,5 +15,11 @@ class CoursesTableSeeder extends Seeder
             ['course_name' => 'BSFT'],
             ['course_name' => 'BAEL'],
         ]);
+
+        /* DB::table('courses')->insert([
+            ['course_name' => 'AB ECON - Bachelor of Arts Major in Economics'],
+            ['course_name' => 'AB POL SCI - Bachelor of Arts Major in Political Science'],
+        ]); */
+
     }
 }

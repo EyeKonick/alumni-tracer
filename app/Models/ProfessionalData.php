@@ -15,6 +15,8 @@ class ProfessionalData extends Model
         'address',
         'employer',
         'employer_address',
+        'is_employed',
+        'is_traced',
         'employment_status_id',
         'present_position',
         'inclusive_from',
