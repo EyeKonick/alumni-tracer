@@ -22,4 +22,10 @@ class AlumniSurvey extends Model
         'degree_skills_in_line' => 'boolean',
         'challenges_faced' => 'array',
     ];
+
+    public function challenges()
+    {
+        return $this->belongsToMany(Challenge::class, 'alumni_survey_challenge', 'alumni_survey_id', 'challenge_id');
+    }
+    
 }

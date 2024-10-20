@@ -47,18 +47,18 @@ class SurveyController extends Controller
             'email' => 'required|email|unique:personal_data,email',
 
             // Professional Data Validation
-            'company_name' => 'required|string|max:255',
-            'company_address' => 'required|string',
-            'employer' => 'required|string|max:255',
-            'employer_address' => 'required|string',
+            'company_name' => 'nullable|required_if:is_employed,true|string|max:255',
+            'company_address' => 'nullable|required_if:is_employed,true|string',
+            'employer' => 'nullable|required_if:is_employed,true|string|max:255',
+            'employer_address' => 'nullable|required_if:is_employed,true|string',
             'is_employed' => 'boolean',
             'is_traced' => 'boolean',
             'employment_status_id' => 'nullable|required_if:is_employed,true|exists:employment_statuses,id',
-            'present_position' => 'required|string|max:255',
-            'inclusive_from' => 'required|integer',
-            'inclusive_to' => 'required|integer|gte:inclusive_from',
-            'monthly_income_id' => 'required|exists:monthly_incomes,id',
-            'skills_used' => 'required|array',
+            'present_position' => 'nullable|required_if:is_employed,true|string|max:255',
+            'inclusive_from' => 'nullable|required_if:is_employed,true|integer',
+            'inclusive_to' => 'nullable|required_if:is_employed,true|integer|gte:inclusive_from',
+            'monthly_income_id' => 'nullable|required_if:is_employed,true|exists:monthly_incomes,id',
+            'skills_used' => 'nullable|required_if:is_employed,true|array',
             'skills_used.*' => 'exists:skills,id',
 
             // Alumni Survey Validation

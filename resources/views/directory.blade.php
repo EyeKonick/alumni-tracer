@@ -93,6 +93,7 @@
                                             <td class="border px-2 py-1">{{ optional($alumni->professionalData)->present_position }}</td>
                                             <td class="border px-2 py-1 text-center">
                                                 <div class="flex justify-center space-x-2">
+                                                    <a href="{{ route('alumni.view', $alumni->id) }}" class="hover:bg-green-700 text-xs font-semibold text-white bg-green-600 py-1 px-2 rounded-md">View</a>
                                                     <a href="{{ route('alumni.edit', $alumni->id) }}" class="hover:bg-blue-700 text-xs font-semibold text-white bg-blue-600 py-1 px-2 rounded-md">Edit</a>
                                                     <form action="{{ route('alumni.delete', $alumni->id) }}" method="POST" onsubmit="return confirm('Are you sure?')">
                                                         @csrf

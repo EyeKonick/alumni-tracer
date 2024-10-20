@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\PersonalData;
+use App\Models\AlumniSurvey;
+use App\Models\ProfessionalData;
+use App\Models\Challenge;
 use Illuminate\Http\Request;
 
 class AlumniController extends Controller
@@ -37,18 +40,26 @@ class AlumniController extends Controller
 
     public function destroy($id)
     {
-        // Fetch the alumni data by ID
+        
         $alumni = PersonalData::findOrFail($id);
-
-        // Delete related alumni survey data
         $alumni->alumniSurvey()->delete();
-
-        // Delete related professional data, if applicable
         $alumni->professionalData()->delete();
-
-        // Delete the alumni record
         $alumni->delete();
 
         return redirect()->route('alumni.directory')->with('success', 'Alumni deleted successfully');
     }
+
+    public function show(Request $request, $id) {
+        // Find the alumni record
+        $alumni = PersonalData::findOrFail($id);
+    
+        $alumniSurveys = AlumniSurvey::where('alumni_id', $id)->get();
+
+        $challenges = Challenge::all()->pluck('challenge_name', 'id')->toArray();
+    
+        $professionalData = ProfessionalData::where('alumni_id', $id)->with('employmentStatus')->first(); 
+    
+        return view('view_alumni', compact('alumni', 'alumniSurveys', 'professionalData', 'challenges'));
+    }
+
 }

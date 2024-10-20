@@ -38,6 +38,9 @@ Route::get('/employability', [AlumniEmployabilityController::class, 'showEmploya
 
 Route::get('/graduate-tracer-data', [GraduateTracerController::class, 'index'])->name('graduate.tracer.data');
 
+// View Alumni Route (Displays the edit form)
+Route::get('/alumni/{id}/view', [AlumniController::class, 'show'])->name('alumni.view');
+
 // Edit Alumni Route (Displays the edit form)
 Route::get('/alumni/{id}/edit', [AlumniController::class, 'edit'])->name('alumni.edit');
 

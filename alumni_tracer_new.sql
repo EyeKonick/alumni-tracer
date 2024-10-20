@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 20, 2024 at 04:11 AM
+-- Generation Time: Oct 20, 2024 at 04:51 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -67,7 +67,8 @@ INSERT INTO `alumni_survey` (`id`, `alumni_id`, `degree_skills_in_line`, `sugges
 (20, 33, 0, 'sdsd', 'asdsdasd', NULL, NULL, NULL, '[\"1\",\"2\"]', '2024-09-15 09:07:37', '2024-09-15 09:07:37'),
 (21, 34, 0, 'dsfdfdsf', 'sdfsdfsdf', NULL, NULL, NULL, '[\"1\",\"2\"]', '2024-09-15 16:25:14', '2024-09-15 16:25:14'),
 (22, 35, 1, 'testdasda', NULL, NULL, NULL, NULL, NULL, '2024-10-19 17:51:27', '2024-10-19 17:51:27'),
-(23, 36, 1, 'weqweqdsadasdasdwq', NULL, NULL, NULL, NULL, '[\"1\",\"2\",\"7\",\"8\"]', '2024-10-19 18:00:16', '2024-10-19 18:00:16');
+(23, 36, 1, 'weqweqdsadasdasdwq', NULL, NULL, NULL, NULL, '[\"1\",\"2\",\"7\",\"8\"]', '2024-10-19 18:00:16', '2024-10-19 18:00:16'),
+(24, 39, 1, 'testr41213123sadasd', NULL, NULL, NULL, NULL, '[\"1\"]', '2024-10-20 06:50:38', '2024-10-20 06:50:38');
 
 -- --------------------------------------------------------
 
@@ -378,7 +379,10 @@ INSERT INTO `personal_data` (`id`, `first_name`, `middle_name`, `last_name`, `ge
 (33, 'dsfs', 'dfsf', 'sdfsdfsf', 2, 25, 3, '2023', 1, 'fsf', '09090909099', 'dsf@test.com', '2024-09-15 09:07:36', '2024-09-15 09:07:36'),
 (34, 'asad', 'sadasd', 'asdasd', 1, 23, 2, '2023', 2, 'dasdasd', '09090909099', 'testsdasd@test.com', '2024-09-15 16:25:14', '2024-09-15 16:25:14'),
 (35, 'Mark Romel', 'F', 'Feguro', 1, 24, 1, '2024', 1, 'Dumalag', '09672812221', 'markromelfeguro1@gmail.com', '2024-10-19 17:51:27', '2024-10-19 17:51:27'),
-(36, 'test', 'test', 'test', 1, 32, 1, '2025', 4, 'test', '09123456789', 'tetset@gmail.com', '2024-10-19 18:00:16', '2024-10-19 18:00:16');
+(36, 'test', 'test', 'test', 1, 32, 1, '2025', 4, 'test', '09123456789', 'tetset@gmail.com', '2024-10-19 18:00:16', '2024-10-19 18:00:16'),
+(37, 'Shuna', 'F', 'Vayne', 2, 25, 1, '2025', 3, 'League of legends', '09388444436', 'shunavayne@gmail.com', '2024-10-20 06:47:08', '2024-10-20 06:47:08'),
+(38, 'Shuna', 'F', 'Vayne', 2, 25, 1, '2025', 3, 'League of legends', '09388444436', 'shunavayne23@gmail.com', '2024-10-20 06:47:49', '2024-10-20 06:47:49'),
+(39, 'Shuna', 'F', 'Vayne', 2, 25, 1, '2025', 3, 'League of legends', '09388444436', 'shunavayne2334@gmail.com', '2024-10-20 06:50:38', '2024-10-20 06:50:38');
 
 -- --------------------------------------------------------
 
@@ -389,17 +393,17 @@ INSERT INTO `personal_data` (`id`, `first_name`, `middle_name`, `last_name`, `ge
 CREATE TABLE `professional_data` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `alumni_id` bigint(20) UNSIGNED NOT NULL,
-  `company_name` varchar(255) NOT NULL,
-  `company_address` text NOT NULL,
-  `employer` varchar(255) NOT NULL,
-  `employer_address` text NOT NULL,
+  `company_name` varchar(255) DEFAULT NULL,
+  `company_address` text DEFAULT NULL,
+  `employer` varchar(255) DEFAULT NULL,
+  `employer_address` text DEFAULT NULL,
   `is_traced` tinyint(4) DEFAULT 0,
   `is_employed` tinyint(4) NOT NULL DEFAULT 0,
   `employment_status_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `present_position` varchar(255) NOT NULL,
-  `inclusive_from` year(4) NOT NULL,
-  `inclusive_to` year(4) NOT NULL,
-  `monthly_income_id` bigint(20) UNSIGNED NOT NULL,
+  `present_position` varchar(255) DEFAULT NULL,
+  `inclusive_from` year(4) DEFAULT NULL,
+  `inclusive_to` year(4) DEFAULT NULL,
+  `monthly_income_id` bigint(20) UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -430,7 +434,8 @@ INSERT INTO `professional_data` (`id`, `alumni_id`, `company_name`, `company_add
 (23, 33, 'dsa', 'dasdas', 'dasd', 'adad', 0, 0, 1, 'asdas', '2023', '2026', 3, '2024-09-15 09:07:36', '2024-09-15 09:07:36'),
 (24, 34, 'asdfsfsdf', 'sdfsdfdsf', 'dsfsdf', 'sdfsdf', 0, 0, 2, 'dfsdfdsf', '2024', '2025', 4, '2024-09-15 16:25:14', '2024-09-15 16:25:14'),
 (25, 35, 'FCU', 'Roxas', 'FCU', 'FCU', 0, 0, 2, 'Faculty', '2024', '2025', 1, '2024-10-19 17:51:27', '2024-10-19 17:51:27'),
-(26, 36, 'FCU', 'Roxas', 'FCU', 'FCU', 0, 0, 3, 'Faculty', '2025', '2026', 1, '2024-10-19 18:00:16', '2024-10-19 18:00:16');
+(26, 36, 'FCU', 'Roxas', 'FCU', 'FCU', 0, 0, 3, 'Faculty', '2025', '2026', 1, '2024-10-19 18:00:16', '2024-10-19 18:00:16'),
+(27, 39, NULL, NULL, NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, '2024-10-20 06:50:38', '2024-10-20 06:50:38');
 
 -- --------------------------------------------------------
 
@@ -524,8 +529,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('6e06iuxAR3NnF1lgNkNGcE86IgvIuRIlnBjUcnuR', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiMFMwV1FjNVFGRlRTYTBET2l4SVZ6RGJETGd5akhNZ0dZUzBXUzBZeSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjg6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9zdXJ2ZXkiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1729389647),
-('kYoyiyt7HvKSkEA6xiJ1IfPvPztVty4su5FxUDyq', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoicnRJNkU1NktFemFHZVN3MmVMNXlIcGFVT0tpTGJ6NGNJTzB1enJFcCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjg6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9zdXJ2ZXkiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1729348693);
+('aZSvF7MNPRoyA0MPC1rzjeJQgF0l3s8dXR1NoOM8', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiNHROZUtBbVBqemZPWkMwWDVEUG5GVnYwQVFCZVNwUThxMXhGRFNFSSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzg6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hbHVtbmktZGlyZWN0b3J5Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9', 1729435651),
+('tRzkggZpHsfszVPNeXpMlVFObBiOn9vmec9bwtGr', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoicTBhaUxVYk9BeG1ZeWNlMEJYSUk0ZGVHN1JrM1Z2OXJocFpWUjIzRSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjg6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9zdXJ2ZXkiO319', 1729435840);
 
 -- --------------------------------------------------------
 
@@ -725,7 +730,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `alumni_survey`
 --
 ALTER TABLE `alumni_survey`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `challenges`
@@ -785,13 +790,13 @@ ALTER TABLE `monthly_incomes`
 -- AUTO_INCREMENT for table `personal_data`
 --
 ALTER TABLE `personal_data`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `professional_data`
 --
 ALTER TABLE `professional_data`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `professional_data_skill`

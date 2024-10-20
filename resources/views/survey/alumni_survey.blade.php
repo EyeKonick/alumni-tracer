@@ -151,143 +151,146 @@
             <div id="step2" class="step hidden">
                 <h2 class="text-2xl mb-6 text-center font-semibold text-gray-800">Professional Data</h2>
 
-                <!-- Company Information -->
-                <div class="mb-6">
-                    <h3 class="text-xl font-medium text-gray-700 mb-4">Company Information</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <!-- Company Name -->
-                        <div>
-                            <label for="company_name" class="block text-sm font-medium text-gray-700">Company Name</label>
-                            <input type="text" id="company_name" name="company_name" value="{{ old('company_name') }}" class="mt-1 block w-full p-3 border rounded-md @error('company_name') border-red-500 @enderror" required>
-                            @error('company_name')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
+                <!-- Employment Status -->
 
-                        <!-- Company Address -->
-                        <div>
-                            <label for="company_address" class="block text-sm font-medium text-gray-700">Company Address</label>
-                            <input type="text" id="company_address" name="company_address" value="{{ old('company_address') }}" class="mt-1 block w-full p-3 border rounded-md @error('company_address') border-red-500 @enderror" required>
-                            @error('company_address')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
-                    </div>
+                <div>
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" id="is_employed" name="is_employed" class="form-checkbox">
+                        <span class="ml-2">Is Employed? if not leave it blank!</span>
+                    </label>
                 </div>
-
-                <!-- Employment Details -->
-                <div class="mb-6">
-                    <h3 class="text-xl font-medium text-gray-700 mb-4">Employment Details</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <!-- Employer -->
-                        <div>
-                            <label for="employer" class="block text-sm font-medium text-gray-700">Employer</label>
-                            <input type="text" id="employer" name="employer" value="{{ old('employer') }}" class="mt-1 block w-full p-3 border rounded-md @error('employer') border-red-500 @enderror" required>
-                            @error('employer')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <!-- Employer Address -->
-                        <div>
-                            <label for="employer_address" class="block text-sm font-medium text-gray-700">Employer Address</label>
-                            <input type="text" id="employer_address" name="employer_address" value="{{ old('employer_address') }}" class="mt-1 block w-full p-3 border rounded-md @error('employer_address') border-red-500 @enderror" required>
-                            @error('employer_address')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <!-- Employment Status -->
-
-                        <div>
-                            <label class="inline-flex items-center">
-                                <input type="checkbox" id="is_employed" name="is_employed" class="form-checkbox">
-                                <span class="ml-2">Is Employed?</span>
-                            </label>
-                        </div>
-
-                        <div>
-                            <label class="inline-flex items-center">
-                                <input type="checkbox" name="is_traced" class="form-checkbox">
-                                <span class="ml-2">Unemployed</span>
-                            </label>
-                        </div>
-
-                        <div id="employment_status_section" style="display: none;">
-                            <label for="employment_status_id" class="block text-sm font-medium text-gray-700">Employment Status</label>
-                            <select id="employment_status_id" name="employment_status_id" class="mt-1 block w-full p-3 border rounded-md @error('employment_status_id') border-red-500 @enderror">
-                                <option value="">Select Status</option>
-                                @foreach($employmentStatuses as $status)
-                                    <option value="{{ $status->id }}" {{ old('employment_status_id') == $status->id ? 'selected' : '' }}>{{ $status->status_name }}</option>
-                                @endforeach
-                            </select>
-                            @error('employment_status_id')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <!-- Present Position -->
-                        <div>
-                            <label for="present_position" class="block text-sm font-medium text-gray-700">Present Position</label>
-                            <input type="text" id="present_position" name="present_position" value="{{ old('present_position') }}" class="mt-1 block w-full p-3 border rounded-md @error('present_position') border-red-500 @enderror" required>
-                            @error('present_position')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <!-- Inclusive From -->
-                        <div>
-                            <label for="inclusive_from" class="block text-sm font-medium text-gray-700">Inclusive From</label>
-                            <input type="number" id="inclusive_from" name="inclusive_from" value="{{ old('inclusive_from') }}" class="mt-1 block w-full p-3 border rounded-md @error('inclusive_from') border-red-500 @enderror" required>
-                            @error('inclusive_from')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <!-- Inclusive To -->
-                        <div>
-                            <label for="inclusive_to" class="block text-sm font-medium text-gray-700">Inclusive To</label>
-                            <input type="number" id="inclusive_to" name="inclusive_to" value="{{ old('inclusive_to') }}" class="mt-1 block w-full p-3 border rounded-md @error('inclusive_to') border-red-500 @enderror" required>
-                            @error('inclusive_to')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <!-- Monthly Income -->
-                        <div>
-                            <label for="monthly_income_id" class="block text-sm font-medium text-gray-700">Monthly Income</label>
-                            <select id="monthly_income_id" name="monthly_income_id" class="mt-1 block w-full p-3 border rounded-md @error('monthly_income_id') border-red-500 @enderror" required>
-                                <option value="">Select Income Range</option>
-                                @foreach($monthlyIncomes as $income)
-                                    <option value="{{ $income->id }}" {{ old('monthly_income_id') == $income->id ? 'selected' : '' }}>{{ $income->income_range }}</option>
-                                @endforeach
-                            </select>
-                            @error('monthly_income_id')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
+    
+                <div id="employment_status_section" style="display: none;">
+                    
+                    <div>
+                        <label class="inline-flex items-center">
+                            <input type="checkbox" name="is_traced" class="form-checkbox">
+                            <span class="ml-2">Is Traced? If not leave it blank!</span>
+                        </label>
                     </div>
-                </div>
 
-                <!-- Skills Used -->
-                <div class="mb-6">
-                    <h3 class="text-xl font-medium text-gray-700 mb-2">SKILLS GAINED AND USED IN THE WORKPLACE</h3>
-                    <h6 class="mb-4">Direction: Kindly check (✅) the following skills gained and used in the present job.</h6>
-                    <div class="grid grid-cols-1 gap-4">
-                        @foreach($skills as $skill)
+                    <!-- Company Information -->
+                    <div class="mb-6">
+                        <h3 class="text-xl font-medium text-gray-700 mb-4">Company Information</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Company Name -->
                             <div>
-                                <label class="inline-flex items-center">
-                                    <input type="checkbox" name="skills_used[]" value="{{ $skill->id }}" {{ in_array($skill->id, old('skills_used', [])) ? 'checked' : '' }} class="form-checkbox">
-                                    <span class="ml-2">{{ $skill->skill_name }}</span>
-                                </label>
+                                <label for="company_name" class="block text-sm font-medium text-gray-700">Company Name</label>
+                                <input type="text" id="company_name" name="company_name" value="{{ old('company_name') }}" class="mt-1 block w-full p-3 border rounded-md @error('company_name') border-red-500 @enderror">
+                                @error('company_name')
+                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                @enderror
                             </div>
-                        @endforeach
-                        @error('skills_used')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                        @error('skills_used.*')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
+
+                            <!-- Company Address -->
+                            <div>
+                                <label for="company_address" class="block text-sm font-medium text-gray-700">Company Address</label>
+                                <input type="text" id="company_address" name="company_address" value="{{ old('company_address') }}" class="mt-1 block w-full p-3 border rounded-md @error('company_address') border-red-500 @enderror">
+                                @error('company_address')
+                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Employment Details -->
+                    <div class="mb-6">
+                        <h3 class="text-xl font-medium text-gray-700 mb-4">Employment Details</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Employer -->
+                            <div>
+                                <label for="employer" class="block text-sm font-medium text-gray-700">Employer</label>
+                                <input type="text" id="employer" name="employer" value="{{ old('employer') }}" class="mt-1 block w-full p-3 border rounded-md @error('employer') border-red-500 @enderror">
+                                @error('employer')
+                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Employer Address -->
+                            <div>
+                                <label for="employer_address" class="block text-sm font-medium text-gray-700">Employer Address</label>
+                                <input type="text" id="employer_address" name="employer_address" value="{{ old('employer_address') }}" class="mt-1 block w-full p-3 border rounded-md @error('employer_address') border-red-500 @enderror">
+                                @error('employer_address')
+                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <label for="employment_status_id" class="block text-sm font-medium text-gray-700">Employment Status</label>
+                                <select id="employment_status_id" name="employment_status_id" class="mt-1 block w-full p-3 border rounded-md @error('employment_status_id') border-red-500 @enderror">
+                                    <option value="">Select Status</option>
+                                    @foreach($employmentStatuses as $status)
+                                        <option value="{{ $status->id }}" {{ old('employment_status_id') == $status->id ? 'selected' : '' }}>{{ $status->status_name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('employment_status_id')
+                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Present Position -->
+                            <div>
+                                <label for="present_position" class="block text-sm font-medium text-gray-700">Present Position</label>
+                                <input type="text" id="present_position" name="present_position" value="{{ old('present_position') }}" class="mt-1 block w-full p-3 border rounded-md @error('present_position') border-red-500 @enderror">
+                                @error('present_position')
+                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Inclusive From -->
+                            <div>
+                                <label for="inclusive_from" class="block text-sm font-medium text-gray-700">Inclusive From</label>
+                                <input type="number" id="inclusive_from" name="inclusive_from" value="{{ old('inclusive_from') }}" class="mt-1 block w-full p-3 border rounded-md @error('inclusive_from') border-red-500 @enderror">
+                                @error('inclusive_from')
+                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Inclusive To -->
+                            <div>
+                                <label for="inclusive_to" class="block text-sm font-medium text-gray-700">Inclusive To</label>
+                                <input type="number" id="inclusive_to" name="inclusive_to" value="{{ old('inclusive_to') }}" class="mt-1 block w-full p-3 border rounded-md @error('inclusive_to') border-red-500 @enderror">
+                                @error('inclusive_to')
+                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Monthly Income -->
+                            <div>
+                                <label for="monthly_income_id" class="block text-sm font-medium text-gray-700">Monthly Income</label>
+                                <select id="monthly_income_id" name="monthly_income_id" class="mt-1 block w-full p-3 border rounded-md @error('monthly_income_id') border-red-500 @enderror">
+                                    <option value="">Select Income Range</option>
+                                    @foreach($monthlyIncomes as $income)
+                                        <option value="{{ $income->id }}" {{ old('monthly_income_id') == $income->id ? 'selected' : '' }}>{{ $income->income_range }}</option>
+                                    @endforeach
+                                </select>
+                                @error('monthly_income_id')
+                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Skills Used -->
+                    <div class="mb-6">
+                        <h3 class="text-xl font-medium text-gray-700 mb-2">SKILLS GAINED AND USED IN THE WORKPLACE</h3>
+                        <h6 class="mb-4">Direction: Kindly check (✅) the following skills gained and used in the present job.</h6>
+                        <div class="grid grid-cols-1 gap-4">
+                            @foreach($skills as $skill)
+                                <div>
+                                    <label class="inline-flex items-center">
+                                        <input type="checkbox" name="skills_used[]" value="{{ $skill->id }}" {{ in_array($skill->id, old('skills_used', [])) ? 'checked' : '' }} class="form-checkbox">
+                                        <span class="ml-2">{{ $skill->skill_name }}</span>
+                                    </label>
+                                </div>
+                            @endforeach
+                            @error('skills_used')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                            @error('skills_used.*')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
                     </div>
                 </div>
 
