@@ -49,4 +49,5 @@ Route::delete('/alumni/{id}', [AlumniController::class, 'destroy'])->name('alumn
 
 
 
+
 require __DIR__.'/auth.php';
