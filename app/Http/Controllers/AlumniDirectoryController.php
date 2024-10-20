@@ -41,7 +41,7 @@ class AlumniDirectoryController extends Controller
     }
 
 
-    public function exportAlumniAsExcel(Request $request)
+   public function exportAlumniAsExcel(Request $request)
     {
         $sort = $request->input('sort', 'desc');
 
@@ -54,31 +54,58 @@ class AlumniDirectoryController extends Controller
         header("Content-Type: application/vnd.ms-excel");
         header("Content-Disposition: attachment; filename=\"$fileName\"");
 
-        $output = fopen('php://output', 'w');
+        ob_start();
 
-        $headers = [
-            'No', 'Surname', 'First Name', 'Email Address', 'Contact No.', 
-            'Employer', 'Employer Address', 'Position'
-        ];
-        fputcsv($output, $headers, "\t");
+        echo '<html>';
+        echo '<head>';
+        echo '<style>';
+        echo 'table { border-collapse: collapse; width: 100%; font-family: Arial, sans-serif; }';
+        echo 'th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }';
+        echo 'th { background-color: #4CAF50; color: white; }';
+        echo 'th:hover { background-color: #45a049; }';
+        echo 'tr:nth-child(even) { background-color: #f2f2f2; }';
+        echo 'tr:hover { background-color: #ddd; }';
+        echo 'h1 { text-align: center; font-size: 24px; margin-bottom: 20px; }';
+        echo '</style>';
+        echo '</head>';
+        echo '<body>';
 
+        // Optional title for the export
+        echo '<h1>Alumni Directory</h1>'; 
+
+        echo '<table>';
+        echo '<tr>';
+        echo '<th>No</th>';
+        echo '<th>Surname</th>';
+        echo '<th>First Name</th>';
+        echo '<th>Email Address</th>';
+        echo '<th>Contact No.</th>';
+        echo '<th>Employer</th>';
+        echo '<th>Employer Address</th>';
+        echo '<th>Position</th>';
+        echo '</tr>';
+
+        // Populate the table with data
         foreach ($alumniData as $index => $alum) {
-            $row = [
-                $index + 1,
-                $alum->last_name,
-                $alum->first_name,
-                $alum->email,
-                $alum->cellphone_number,
-                $alum->professionalData ? $alum->professionalData->employer : '',
-                $alum->professionalData ? $alum->professionalData->employer_address : '',
-                $alum->professionalData ? $alum->professionalData->present_position : ''
-            ];
-
-            fputcsv($output, $row, "\t");
+            echo '<tr>';
+            echo '<td>' . ($index + 1) . '</td>';
+            echo '<td>' . htmlspecialchars($alum->last_name) . '</td>';
+            echo '<td>' . htmlspecialchars($alum->first_name) . '</td>';
+            echo '<td>' . htmlspecialchars($alum->email) . '</td>';
+            echo '<td>' . htmlspecialchars($alum->cellphone_number) . '</td>';
+            echo '<td>' . ($alum->professionalData ? htmlspecialchars($alum->professionalData->employer) : '') . '</td>';
+            echo '<td>' . ($alum->professionalData ? htmlspecialchars($alum->professionalData->employer_address) : '') . '</td>';
+            echo '<td>' . ($alum->professionalData ? htmlspecialchars($alum->professionalData->present_position) : '') . '</td>';
+            echo '</tr>';
         }
 
-        fclose($output);
+        echo '</table>';
+        echo '</body>';
+        echo '</html>';
 
+        $output = ob_get_clean();
+
+        echo $output;
         exit;
     }
 
