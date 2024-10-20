@@ -6,7 +6,7 @@
                     <div class="flex items-center justify-between mb-4">
                         <h1 class="text-xl font-bold">Alumni Directory</h1>
 
-                            <!-- Success Message with Auto Dismiss -->
+                        <!-- Success Message with Auto Dismiss -->
                         @if(session('success'))
                             <div id="success-message" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6" role="alert">
                                 <strong class="font-bold">Success!</strong>
@@ -20,7 +20,6 @@
                                 }, 5000); // 5000ms = 5 seconds
                             </script>
                         @endif
-
 
                         <!-- Search and Print Controls -->
                         <div class="flex items-center space-x-2">
@@ -76,6 +75,7 @@
                                         <th class="w-2/12 border px-2 py-1">Employer</th>
                                         <th class="w-2/12 border px-2 py-1">Employer Address</th>
                                         <th class="w-2/12 border px-2 py-1">Position</th>
+                                        <!-- Exclude "Actions" column in the print version -->
                                         <th class="w-2/12 border px-2 py-1 text-center">Actions</th>
                                     </tr>
                                 </thead>
@@ -93,10 +93,7 @@
                                             <td class="border px-2 py-1">{{ optional($alumni->professionalData)->present_position }}</td>
                                             <td class="border px-2 py-1 text-center">
                                                 <div class="flex justify-center space-x-2">
-                                                    <!-- Edit button remains the same -->
                                                     <a href="{{ route('alumni.edit', $alumni->id) }}" class="hover:bg-blue-700 text-xs font-semibold text-white bg-blue-600 py-1 px-2 rounded-md">Edit</a>
-
-                                                    <!-- Delete form with method DELETE -->
                                                     <form action="{{ route('alumni.delete', $alumni->id) }}" method="POST" onsubmit="return confirm('Are you sure?')">
                                                         @csrf
                                                         @method('DELETE')
@@ -124,21 +121,113 @@
     <script>
         function printTable() {
             const printWindow = window.open('', '', 'height=600,width=800');
-            const tableHTML = document.getElementById('alumniTable').outerHTML;
-            printWindow.document.write('<html><head><title>Print Table</title>');
-            printWindow.document.write('<style>');
-            printWindow.document.write('table { width: 100%; border-collapse: collapse; }');
-            printWindow.document.write('th, td { border: 1px solid black; padding: 8px; text-align: left; }');
-            printWindow.document.write('thead { background-color: #f2f2f2; }');
-            printWindow.document.write('tbody tr:nth-child(even) { background-color: #f9f9f9; }');
-            printWindow.document.write('</style>');
-            printWindow.document.write('</head><body>');
-            printWindow.document.write('<h1>Alumni Directory</h1>');
-            printWindow.document.write(tableHTML);
-            printWindow.document.write('</body></html>');
+            const tableContent = document.getElementById('alumniTable').outerHTML;
+
+            // Create a copy of the table, excluding the Actions column
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = tableContent;
+            const rows = tempDiv.querySelectorAll('tr');
+            rows.forEach(row => {
+                // Remove the last column (Actions) from each row
+                row.removeChild(row.lastElementChild);
+            });
+
+            // Write the table without the Actions column to the print window
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>Alumni Directory</title>
+                    <style>
+                        /* Styling for print layout */
+                        @media print {
+                            body {
+                                margin: 0;
+                                font-family: 'Arial', sans-serif;
+                            }
+                            .header {
+                                text-align: center;
+                                margin-bottom: 20px;
+                                position: relative;
+                                padding-bottom: 10px;
+                                border-bottom: 2px solid black;
+                            }
+                            .header img {
+                                position: absolute;
+                                top: 0;
+                                left: 0;
+                                width: 80px; /* Adjusted logo size */
+                                height: auto;
+                            }
+                            .header h1, .header h2, .header h3, .header p {
+                                margin: 0;
+                                padding: 0;
+                            }
+                            .header h1 {
+                                font-size: 14px;
+                                font-weight: normal;
+                            }
+                            .header h2 {
+                                font-size: 26px;
+                                color: blue;
+                                font-weight: bold;
+                            }
+                            .header h3 {
+                                font-size: 18px;
+                                font-weight: bold;
+                            }
+                            .header p {
+                                font-size: 12px;
+                            }
+
+                            table {
+                                width: 100%;
+                                border-collapse: collapse;
+                                margin-top: 20px;
+                            }
+                            th, td {
+                                border: 1px solid black;
+                                padding: 10px;
+                                text-align: center;
+                            }
+                            th {
+                                background-color: #f2f2f2;
+                                font-weight: bold;
+                            }
+                            td {
+                                background-color: #ffffff;
+                            }
+                            tr:nth-child(even) td {
+                                background-color: #f9f9f9; /* Alternating row color for visual appeal */
+                            }
+                            @page {
+                                size: letter landscape; /* Set default paper size to letter and orientation to landscape */
+                                margin: 15mm;
+                            }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <!-- Printing Header -->
+                    <div class="header">
+                        <img src="images/capsu_logo.jpg" alt="Logo"> <!-- Updated logo source -->
+                        <h1>Republic of the Philippines</h1>
+                        <h2 class="university">CAPIZ STATE UNIVERSITY</h2>
+                        <h3>MAMBUSAO SATELLITE COLLEGE</h3>
+                        <p>Poblacion, Mambusao, Capiz</p>
+                        <p>website: www.capsu.edu.ph | email: mambusao@capsu.edu.ph</p>
+                    </div>
+                    <h1 style="text-align:center;">Alumni Directory</h1>
+                    ${tempDiv.innerHTML} <!-- Insert modified table without the "Actions" column -->
+                </body>
+                </html>
+            `);
+
             printWindow.document.close();
-            printWindow.focus();
             printWindow.print();
         }
     </script>
+
+
+
+
 </x-app-layout>

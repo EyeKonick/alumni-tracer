@@ -202,14 +202,14 @@
                         <div>
                             <label class="inline-flex items-center">
                                 <input type="checkbox" id="is_employed" name="is_employed" class="form-checkbox">
-                                <span class="ml-2">Is Employed? If not, leave it blank.</span>
+                                <span class="ml-2">Is Employed?</span>
                             </label>
                         </div>
 
                         <div>
                             <label class="inline-flex items-center">
                                 <input type="checkbox" name="is_traced" class="form-checkbox">
-                                <span class="ml-2">Not Traced?</span>
+                                <span class="ml-2">Unemployed</span>
                             </label>
                         </div>
 
@@ -271,7 +271,8 @@
 
                 <!-- Skills Used -->
                 <div class="mb-6">
-                    <h3 class="text-xl font-medium text-gray-700 mb-4">Skills Used</h3>
+                    <h3 class="text-xl font-medium text-gray-700 mb-2">SKILLS GAINED AND USED IN THE WORKPLACE</h3>
+                    <h6 class="mb-4">Direction: Kindly check (✅) the following skills gained and used in the present job.</h6>
                     <div class="grid grid-cols-1 gap-4">
                         @foreach($skills as $skill)
                             <div>
@@ -304,7 +305,9 @@
 
                 <!-- Degree Skills In Line -->
                 <div class="mb-6">
-                    <label for="degree_skills_in_line" class="block text-sm font-medium text-gray-700">
+                    <h3 class="text-xl font-medium text-gray-700 mb-2">Alumni Survey question</h3>
+                    <h6 class="mb-4">Direction: Please answer the following questions honestly. Your answer is important to us because it will help the university improve the service delivered to our beloved stakeholders.</h6>
+                    <label for="degree_skills_in_line" class="block text-md font-medium text-gray-700">
                         Are the skills you acquired during your degree in line with your current job?
                     </label>
                     <div class="mt-2 flex items-center space-x-4">
@@ -343,7 +346,7 @@
 
                 <!-- Challenges Faced -->
                 <div class="mb-6">
-                    <label class="block text-sm font-medium text-gray-700">Challenges Faced <span class="text-red-600">*</span></label>
+                    <label class="block text-md font-medium text-gray-700 mb-4"> What are the challenges you experience after graduation? check (✅) as many challenges you encountered that really affect you.  <span class="text-red-600">*</span></label>
                     <div class="mt-1">
                         @foreach ($challenges as $challenge)
                             <div class="flex items-center">
@@ -368,7 +371,7 @@
 
                 <!-- Suggestions -->
                 <div class="mb-6">
-                    <label for="suggestions" class="block text-sm font-medium text-gray-700">Suggestions</label>
+                    <label for="suggestions" class="block text-md font-medium text-gray-700">What are the suggestions to the university to improved its alumni services.</label>
                     <textarea id="suggestions" name="suggestions" required class="mt-1 block w-full p-3 border rounded-md @error('suggestions') border-red-500 @enderror">{{ old('suggestions') }}</textarea>
                     @error('suggestions')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -402,11 +405,8 @@
                     @enderror
                 </div>
 
-<<<<<<< HEAD
-=======
 
 
->>>>>>> 76420d0cb1c6afed62bc6f464949956e813dae57
                 <!-- Navigation Buttons -->
                 <div class="flex justify-between mt-6">
                     <button type="button" class="bg-gray-500 text-white px-6 py-2 rounded-md" id="prev2">Previous</button>
@@ -472,7 +472,7 @@
                 return valid;
             }
 
-            
+
             document.getElementById('next1').addEventListener('click', function () {
                 if (validateStep(currentStep)) {
                     currentStep++;
@@ -497,7 +497,7 @@
                 showStep(currentStep);
             });
 
-            
+
             showStep(currentStep);
         });
     </script>
