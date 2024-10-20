@@ -138,6 +138,7 @@
                     <div class="mt-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4" role="alert">
                         <p class="font-bold">Reminder</p>
                         <p>It looks like there are some errors in your input. Please review and correct the fields marked in red.</p>
+                        <p class="font-bold">{{ @errors }}</p>
                     </div>
                 @endif
 
