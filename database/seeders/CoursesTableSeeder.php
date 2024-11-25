@@ -9,16 +9,23 @@ class CoursesTableSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('courses')->insert([
+        /* DB::table('courses')->insert([
             ['course_name' => 'BSCS'],
             ['course_name' => 'BSOA'],
             ['course_name' => 'BSFT'],
             ['course_name' => 'BAEL'],
-        ]);
+        ]); */
 
         /* DB::table('courses')->insert([
-            ['course_name' => 'AB ECON - Bachelor of Arts Major in Economics'],
-            ['course_name' => 'AB POL SCI - Bachelor of Arts Major in Political Science'],
+            ['course_name' => 'DIPLOMA IN COMPUTER SECRETARIAL (COM. SEC.)'],
+            ['course_name' => 'DIPLOMA IN COMPUTER PROGRAMMING (COM. PROG.)'],
+            ['course_name' => 'TWO-YEAR COMPUTER PROGRAMMING'],
+            ['course_name' => 'TWO-YEAR COMPUTER SECRETARIAL'],
+            ['course_name' => 'BSCS - PC OPERATION NC II'],
+            ['course_name' => 'BSFTE - FOOD & BEVERAGE SERVICES NC II'],
+            ['course_name' => 'COMERCIAL COOKING NC II'],
+            ['course_name' => 'COMPUTER PROGRAMMING NC IV'],
+            ['course_name' => 'BACHELOR OF SCIENCE IN FOOD TECHNOLOGY (BSFT)'],
         ]); */
 
     }

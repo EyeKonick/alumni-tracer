@@ -138,11 +138,7 @@
                     <div class="mt-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4" role="alert">
                         <p class="font-bold">Reminder</p>
                         <p>It looks like there are some errors in your input. Please review and correct the fields marked in red.</p>
-<<<<<<< Updated upstream
-                        <p class="font-bold">{{ @errors }}</p>
-=======
                         <p class="font-bold">{{ $errors }}</p>
->>>>>>> Stashed changes
                     </div>
                 @endif
 
@@ -160,20 +156,20 @@
 
                 <div>
                     <label class="inline-flex items-center">
-                        <input type="checkbox" id="is_employed" name="is_employed" value="1" {{ old('is_employed') ? 'checked' : '' }}>
-                        <span class="ml-2">Is Employed? if not leave it blank!</span>
+                        <input type="checkbox" id="is_employed_yes" name="is_employed" value="1" {{ old('is_employed') ? 'checked' : '' }}>
+                        <span class="ml-2">Employed</span>
                     </label>
                 </div>
 
+                <div>
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" id="is_employed_no" name="is_employed" value="0" {{ old('is_employed') ? 'checked' : '' }}>
+                        <span class="ml-2">Not Employed</span>
+                    </label>
+                </div>
+
+
                 <div id="employment_status_section" style="display: none;">
-
-                    <div>
-                        <label class="inline-flex items-center">
-                            <input type="checkbox" id="is_traced" name="is_traced" value="1" {{ old('is_traced') ? 'checked' : '' }}>
-                            <span class="ml-2">Is Traced? If not leave it blank!</span>
-                        </label>
-                    </div>
-
                     <!-- Company Information -->
                     <div class="mb-6">
                         <h3 class="text-xl font-medium text-gray-700 mb-4">Company Information</h3>
@@ -303,6 +299,7 @@
                 <div class="flex justify-between mt-6">
                     <button type="button" class="bg-gray-500 text-white px-6 py-2 rounded-md" id="prev1">Previous</button>
                     <button type="button" class="bg-blue-500 text-white px-6 py-2 rounded-md" id="next2">Next</button>
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded" id="submit_not_employed">Submit</button>
                 </div>
             </div>
 
@@ -380,7 +377,7 @@
                 <!-- Suggestions -->
                 <div class="mb-6">
                     <label for="suggestions" class="block text-md font-medium text-gray-700">What are the suggestions to the university to improved its alumni services.</label>
-                    <textarea id="suggestions" name="suggestions" required class="mt-1 block w-full p-3 border rounded-md @error('suggestions') border-red-500 @enderror">{{ old('suggestions') }}</textarea>
+                    <textarea id="suggestions" name="suggestions" class="mt-1 block w-full p-3 border rounded-md @error('suggestions') border-red-500 @enderror">{{ old('suggestions') }}</textarea>
                     @error('suggestions')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
@@ -442,14 +439,44 @@
 
         document.addEventListener('DOMContentLoaded', function () {
 
-            document.getElementById('is_employed').addEventListener('change', function() {
-                var employmentStatusSection = document.getElementById('employment_status_section');
-                if (this.checked) {
+            const isEmployedYes = document.getElementById('is_employed_yes');
+            const isEmployedNo = document.getElementById('is_employed_no');
+            const submitButtonSection = document.getElementById('submit_not_employed');
+            const nextButtonSection = document.getElementById('next2');
+            //initialized
+            var employmentStatusSection = document.getElementById('employment_status_section');
+
+            function toggleButtons() {  
+                if (isEmployedNo.checked) {
+                    submitButtonSection.classList.remove('hidden');
+                    nextButtonSection.classList.add('hidden');
+                    employmentStatusSection.style.display = 'none';
+                } else if (isEmployedYes.checked) {
+                    submitButtonSection.classList.add('hidden');
+                    nextButtonSection.classList.remove('hidden');
                     employmentStatusSection.style.display = 'block';
                 } else {
                     employmentStatusSection.style.display = 'none';
+                    submitButtonSection.classList.add('hidden');
+                    nextButtonSection.classList.add('hidden');
+                }
+            }
+
+            isEmployedYes.addEventListener('change', function () {
+                if (isEmployedYes.checked) {
+                    isEmployedNo.checked = false;
+                    toggleButtons();
                 }
             });
+
+            isEmployedNo.addEventListener('change', function () {
+                if (isEmployedNo.checked) {
+                    isEmployedYes.checked = false;
+                    toggleButtons();
+                }
+            });
+
+            toggleButtons();
 
 
             const steps = document.querySelectorAll('.step');

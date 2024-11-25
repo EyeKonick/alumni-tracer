@@ -10,8 +10,19 @@ class AlumniEmployabilityController extends Controller
 {
     public function showEmployabilityTracerData(Request $request)
     {
+        $startYear = (int) $request->input('start_year');
+        $endYear = (int) $request->input('end_year');
+
         $query = PersonalData::with(['professionalData.employmentStatus', 'courseGraduated']);
 
+        if ($startYear && $endYear) {
+            $query->whereBetween('year_graduated', [$startYear, $endYear]);
+        } elseif ($startYear) {
+            $query->where('year_graduated', '>=', $startYear);
+        } elseif ($endYear) {
+            $query->where('year_graduated', '<=', $endYear);
+        }
+        
         if ($request->has('course') && $request->input('course') !== 'all') {
             $query->whereHas('courseGraduated', function ($query) use ($request) {
                 $query->where('course_name', $request->input('course'));

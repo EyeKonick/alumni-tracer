@@ -108,7 +108,6 @@
                             </table>
                         </div>
                     </div>
-
                     <!-- Pagination Links -->
                     <div class="mt-2">
                         {{ $alumniData->links() }}
@@ -124,16 +123,14 @@
             const printWindow = window.open('', '', 'height=600,width=800');
             const tableContent = document.getElementById('alumniTable').outerHTML;
 
-            // Create a copy of the table, excluding the Actions column
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = tableContent;
             const rows = tempDiv.querySelectorAll('tr');
             rows.forEach(row => {
-                // Remove the last column (Actions) from each row
+        
                 row.removeChild(row.lastElementChild);
             });
 
-            // Write the table without the Actions column to the print window
             printWindow.document.write(`
                 <html>
                 <head>
@@ -151,13 +148,12 @@
                                 position: relative;
                                 padding-bottom: 10px;
                                 border-bottom: 2px solid black;
+                                margin-top: 1.5rem;
                             }
                             .header img {
-                                position: absolute;
-                                top: 0;
-                                left: 0;
-                                width: 80px; /* Adjusted logo size */
-                                height: auto;
+                                display: block;
+                                max-width: 80px; 
+                                max-height: 80px;
                             }
                             .header h1, .header h2, .header h3, .header p {
                                 margin: 0;
@@ -198,19 +194,18 @@
                                 background-color: #ffffff;
                             }
                             tr:nth-child(even) td {
-                                background-color: #f9f9f9; /* Alternating row color for visual appeal */
+                                background-color: #f9f9f9;
                             }
                             @page {
-                                size: letter landscape; /* Set default paper size to letter and orientation to landscape */
+                                size: letter landscape;
                                 margin: 15mm;
                             }
                         }
                     </style>
                 </head>
                 <body>
-                    <!-- Printing Header -->
-                    <div class="header">
-                        <img src="images/capsu_logo.jpg" alt="Logo"> <!-- Updated logo source -->
+                    <div class="header" style="margin-top: 24px">
+                        <img src="images/capsu_logo.jpg" alt="Logo" style="display: block; margin-left: auto; margin-right: auto; max-width: 80px; max-height: 80px;">
                         <h1>Republic of the Philippines</h1>
                         <h2 class="university">CAPIZ STATE UNIVERSITY</h2>
                         <h3>MAMBUSAO SATELLITE COLLEGE</h3>
@@ -224,11 +219,13 @@
             `);
 
             printWindow.document.close();
-            printWindow.print();
+            const img = printWindow.document.querySelector('img');
+            img.onload = function() {
+                printWindow.print();
+                setTimeout(function() {
+                    printWindow.close();
+                }, 400);
+            };
         }
     </script>
-
-
-
-
 </x-app-layout>
