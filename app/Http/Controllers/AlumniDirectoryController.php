@@ -96,7 +96,7 @@ class AlumniDirectoryController extends Controller
         echo '<body>';
 
         // Optional title for the export
-        echo '<h1>Alumni Directory</h1>'; 
+        echo '<h1>Alumni Directory</h1>';
 
         echo '<table>';
         echo '<tr>';

@@ -201,6 +201,14 @@
                 </div>                              
 
 
+                <div>
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" id="is_employed_no" name="is_employed" value="0" {{ old('is_employed') ? 'checked' : '' }}>
+                        <span class="ml-2">Not Employed</span>
+                    </label>
+                </div>
+
+
                 <div id="employment_status_section" style="display: none;">
                     <!-- Company Information -->
                     <div class="mb-6">

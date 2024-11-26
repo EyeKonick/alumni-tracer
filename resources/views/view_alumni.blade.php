@@ -1,46 +1,56 @@
 <x-app-layout>
-    <div class="py-12">
+    <div class="py-12 bg-gray-50 min-h-screen">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
+            <div class="bg-white overflow-hidden shadow-lg sm:rounded-lg border border-gray-200">
+                <div class="p-8">
 
-                    <div class="mb-4">
-                        <a href="{{ route('alumni.directory') }}" class="hover:bg-blue-700 text-m font-semibold text-white bg-blue-600 py-2 px-2 rounded-md">BACK</a>
+                    <!-- Back Button -->
+                    <div class="mb-6">
+                        <a href="{{ route('alumni.directory') }}"
+                           class="hover:bg-blue-700 text-sm font-semibold text-white bg-blue-600 py-2 px-4 rounded-md shadow-md">
+                            ← BACK
+                        </a>
                     </div>
 
-                    <h1 class="text-2xl font-bold mb-6">View Alumni Information</h1>
+                    <!-- Page Title -->
+                    <h1 class="text-4xl font-extrabold text-center text-blue-800 mb-10 uppercase tracking-wider">
+                        Alumni Information
+                    </h1>
 
                     <!-- Alumni Personal Data -->
-                    <div class="mb-4">
-                        <h2 class="text-xl font-semibold">Personal Information</h2>
-                        <p><strong>Name:</strong> {{ $alumni->first_name }} {{ $alumni->middle_name }} {{ $alumni->last_name }}</p>
-                        <p><strong>Email:</strong> {{ $alumni->email }}</p>
-                        <p><strong>Phone:</strong> {{ $alumni->cellphone_number }}</p>
-                        <p><strong>Home Address:</strong> {{ $alumni->home_address }}</p>
-                        <p><strong>Graduation Year:</strong> {{ $alumni->year_graduated }}</p>
+                    <div class="mb-12">
+                        <h2 class="text-3xl font-semibold text-blue-700 border-b-4 border-blue-400 inline-block mb-6">
+                            Personal Information
+                        </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-700">
+                            <p><span class="font-bold">Name:</span> {{ $alumni->first_name }} {{ $alumni->middle_name }} {{ $alumni->last_name }}</p>
+                            <p><span class="font-bold">Email:</span> {{ $alumni->email }}</p>
+                            <p><span class="font-bold">Phone:</span> {{ $alumni->cellphone_number }}</p>
+                            <p><span class="font-bold">Home Address:</span> {{ $alumni->home_address }}</p>
+                            <p><span class="font-bold">Graduation Year:</span> {{ $alumni->year_graduated }}</p>
+                        </div>
                     </div>
 
                     <!-- Alumni Survey Responses -->
-                    <div class="mb-4">
-                        <h2 class="text-xl font-semibold">Survey Responses</h2>
+                    <div class="mb-12">
+                        <h2 class="text-3xl font-semibold text-blue-700 border-b-4 border-blue-400 inline-block mb-6">
+                            Survey Responses
+                        </h2>
                         @if($alumniSurveys->isEmpty())
-                            <p>No survey responses available.</p>
+                            <p class="text-gray-600 italic">No survey responses available.</p>
                         @else
-                            <ul>
+                            <ul class="list-disc pl-6 space-y-4">
                                 @foreach($alumniSurveys as $survey)
                                     <li>
                                         <strong>Challenges Faced:</strong>
                                         @if(is_array($survey->challenges_faced) && count($survey->challenges_faced) > 0)
-                                            <ul>
+                                            <ul class="list-disc pl-6">
                                                 @foreach($survey->challenges_faced as $challenge_id)
-                                                    @php
-                                                        $challenge_name = $challenges[$challenge_id] ?? 'Unknown Challenge';
-                                                    @endphp
-                                                    <li>{{ htmlspecialchars($challenge_name) }}</li>
+                                                    <li class="text-gray-800">{{ $challenges[$challenge_id] ?? 'Unknown Challenge' }}</li>
                                                 @endforeach
                                             </ul>
                                         @else
-                                            <p>No challenges faced</p>
+                                            <p class="text-gray-600 italic">No challenges faced.</p>
                                         @endif
                                     </li>
                                 @endforeach
@@ -48,69 +58,85 @@
                         @endif
                     </div>
 
-                    <!-- Professional Data Documents -->
-                    <div class="mb-4">
-                        <h2 class="text-xl font-semibold">Documents</h2>
-                        <ul>
-                            @if(!empty($survey->document_path))
-                                <li>
-                                    <a href="javascript:void(0)" 
-                                       onclick="openPdfModal('{{ asset('storage/' . $survey->document_path) }}')" 
-                                       class="text-blue-500 underline">View</a> Document 1
-                                </li>
-                            @endif
-                        
-                            @if(!empty($survey->document_path_2))
-                                <li>
-                                    <a href="javascript:void(0)" 
-                                       onclick="openPdfModal('{{ asset('storage/' . $survey->document_path_2) }}')" 
-                                       class="text-blue-500 underline">View</a> Document 2
-                                </li>
-                            @endif
-                        
-                            @if(!empty($survey->document_path_3))
-                                <li>
-                                    <a href="javascript:void(0)" 
-                                       onclick="openPdfModal('{{ asset('storage/' . $survey->document_path_3) }}')" 
-                                       class="text-blue-500 underline">View</a> Document 3
-                                </li>
-                            @endif
-                        
-                            @if(empty($survey->document_path) && empty($survey->document_path_2) && empty($survey->document_path_3))
-                                <li>No documents available.</li>
-                            @endif
-                        </ul>
-                    </div>
-
-
-
                     <!-- Professional Data -->
-                    <div class="mb-4">
-                        <h2 class="text-xl font-semibold">Professional Data</h2>
+                    <div class="mb-12">
+                        <h2 class="text-3xl font-semibold text-blue-700 border-b-4 border-blue-400 inline-block mb-6">
+                            Professional Data
+                        </h2>
                         @if($professionalData)
-                            <p><strong>Company:</strong> {{ $professionalData->company_name }}</p>
-                            <p><strong>Company Address:</strong> {{ $professionalData->company_address }}</p>
-                            <p><strong>Employer:</strong> {{ $professionalData->employer }}</p>
-                            <p><strong>Employer Address:</strong> {{ $professionalData->employer_address }}</p>
-                            <p><strong>Employment Status:</strong> {{ $professionalData->employmentStatus->status_name }}</p>
-                            <p><strong>Current Position:</strong> {{ $professionalData->present_position }}</p>
-                            <p><strong>Inlusive From:</strong> {{ $professionalData->inclusive_from }} <strong>Inlusive To:</strong> {{ $professionalData->inclusive_to }}</p>
-                            
-                            <!-- Display Skills -->
-                            <p><strong>Skills:</strong></p>
-                            @if($professionalData->skills->isEmpty())
-                                <p>No skills available.</p>
-                            @else
-                                <ol>
-                                    @foreach($professionalData->skills as $skill)
-                                        <li>{{ $loop->iteration }}. {{ $skill->skill_name }}</li>
-                                    @endforeach
-                                </ol>                            
-                            @endif
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-700">
+                                <p><span class="font-bold">Company:</span> {{ $professionalData->company_name }}</p>
+                                <p><span class="font-bold">Company Address:</span> {{ $professionalData->company_address }}</p>
+                                <p><span class="font-bold">Employer:</span> {{ $professionalData->employer }}</p>
+                                <p><span class="font-bold">Employer Address:</span> {{ $professionalData->employer_address }}</p>
+                                <p><span class="font-bold">Employment Status:</span> {{ $professionalData->employmentStatus->status_name }}</p>
+                                <p><span class="font-bold">Current Position:</span> {{ $professionalData->present_position }}</p>
+                                <p><span class="font-bold">Inclusive From:</span> {{ $professionalData->inclusive_from }}
+                                    <span class="font-bold">To:</span> {{ $professionalData->inclusive_to }}
+                                </p>
+                            </div>
+                            <div class="mt-4">
+                                <p class="font-bold">Skills:</p>
+                                @if($professionalData->skills->isEmpty())
+                                    <p class="text-gray-600 italic">No skills available.</p>
+                                @else
+                                    <ul class="list-decimal pl-6 mt-2">
+                                        @foreach($professionalData->skills as $skill)
+                                            <li>{{ $skill->skill_name }}</li>
+                                        @endforeach
+                                    </ul>
+                                @endif
+                            </div>
                         @else
-                            <p>No professional data available.</p>
+                            <p class="text-gray-600 italic">No professional data available.</p>
                         @endif
                     </div>
+
+                    <!-- Documents Section -->
+                    <div class="mb-12">
+                        <h2 class="text-3xl font-semibold text-blue-700 border-b-4 border-blue-400 inline-block mb-6">
+                            Documents
+                        </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            @if(!empty($survey->document_path))
+                                <div class="border rounded-lg shadow-md p-4">
+                                    <iframe src="{{ asset('storage/' . $survey->document_path) }}"
+                                            class="w-full h-40 border rounded-md"
+                                            frameborder="0"></iframe>
+                                    <button onclick="openPdfModal('{{ asset('storage/' . $survey->document_path) }}')"
+                                            class="text-blue-500 hover:text-blue-700 underline mt-2">
+                                        View Document 1
+                                    </button>
+                                </div>
+                            @endif
+                            @if(!empty($survey->document_path_2))
+                                <div class="border rounded-lg shadow-md p-4">
+                                    <iframe src="{{ asset('storage/' . $survey->document_path_2) }}"
+                                            class="w-full h-40 border rounded-md"
+                                            frameborder="0"></iframe>
+                                    <button onclick="openPdfModal('{{ asset('storage/' . $survey->document_path_2) }}')"
+                                            class="text-blue-500 hover:text-blue-700 underline mt-2">
+                                        View Document 2
+                                    </button>
+                                </div>
+                            @endif
+                            @if(!empty($survey->document_path_3))
+                                <div class="border rounded-lg shadow-md p-4">
+                                    <iframe src="{{ asset('storage/' . $survey->document_path_3) }}"
+                                            class="w-full h-40 border rounded-md"
+                                            frameborder="0"></iframe>
+                                    <button onclick="openPdfModal('{{ asset('storage/' . $survey->document_path_3) }}')"
+                                            class="text-blue-500 hover:text-blue-700 underline mt-2">
+                                        View Document 3
+                                    </button>
+                                </div>
+                            @endif
+                            @if(empty($survey->document_path) && empty($survey->document_path_2) && empty($survey->document_path_3))
+                                <p class="text-gray-600 italic">No documents available.</p>
+                            @endif
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -118,9 +144,9 @@
 
     <!-- Modal for Viewing PDF -->
     <div id="pdfModal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
-        <div class="bg-white p-4 rounded-lg">
-            <button class="close-modal">Close</button>
-            <iframe id="pdfIframe" class="w-full h-96" src="" frameborder="0"></iframe>
+        <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
+            <button class="close-modal text-red-500 mb-4 font-semibold">Close</button>
+            <iframe id="pdfIframe" class="w-full h-96 rounded" src="" frameborder="0"></iframe>
         </div>
     </div>
 
@@ -128,22 +154,21 @@
         function openPdfModal(pdfUrl) {
             const modal = document.getElementById('pdfModal');
             const iframe = document.getElementById('pdfIframe');
-            
+
             iframe.src = pdfUrl;
-            
             modal.classList.remove('hidden');
-            
-            document.querySelector('.close-modal').onclick = function() {
+
+            document.querySelector('.close-modal').onclick = function () {
                 modal.classList.add('hidden');
                 iframe.src = '';
-            }
-            
-            modal.onclick = function(event) {
+            };
+
+            modal.onclick = function (event) {
                 if (event.target === modal) {
                     modal.classList.add('hidden');
                     iframe.src = '';
                 }
-            }
+            };
         }
-    </script>    
+    </script>
 </x-app-layout>
