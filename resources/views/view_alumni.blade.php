@@ -97,32 +97,44 @@
                         <h2 class="text-3xl font-semibold text-blue-700 border-b-4 border-blue-400 inline-block mb-6">
                             Documents
                         </h2>
-                        <ul class="list-disc pl-6 space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             @if(!empty($survey->document_path))
-                                <li>
-                                    <a href="javascript:void(0)"
-                                       onclick="openPdfModal('{{ asset('storage/' . $survey->document_path) }}')"
-                                       class="text-blue-500 hover:text-blue-700 underline">View Document 1</a>
-                                </li>
+                                <div class="border rounded-lg shadow-md p-4">
+                                    <iframe src="{{ asset('storage/' . $survey->document_path) }}"
+                                            class="w-full h-40 border rounded-md"
+                                            frameborder="0"></iframe>
+                                    <button onclick="openPdfModal('{{ asset('storage/' . $survey->document_path) }}')"
+                                            class="text-blue-500 hover:text-blue-700 underline mt-2">
+                                        View Document 1
+                                    </button>
+                                </div>
                             @endif
                             @if(!empty($survey->document_path_2))
-                                <li>
-                                    <a href="javascript:void(0)"
-                                       onclick="openPdfModal('{{ asset('storage/' . $survey->document_path_2) }}')"
-                                       class="text-blue-500 hover:text-blue-700 underline">View Document 2</a>
-                                </li>
+                                <div class="border rounded-lg shadow-md p-4">
+                                    <iframe src="{{ asset('storage/' . $survey->document_path_2) }}"
+                                            class="w-full h-40 border rounded-md"
+                                            frameborder="0"></iframe>
+                                    <button onclick="openPdfModal('{{ asset('storage/' . $survey->document_path_2) }}')"
+                                            class="text-blue-500 hover:text-blue-700 underline mt-2">
+                                        View Document 2
+                                    </button>
+                                </div>
                             @endif
                             @if(!empty($survey->document_path_3))
-                                <li>
-                                    <a href="javascript:void(0)"
-                                       onclick="openPdfModal('{{ asset('storage/' . $survey->document_path_3) }}')"
-                                       class="text-blue-500 hover:text-blue-700 underline">View Document 3</a>
-                                </li>
+                                <div class="border rounded-lg shadow-md p-4">
+                                    <iframe src="{{ asset('storage/' . $survey->document_path_3) }}"
+                                            class="w-full h-40 border rounded-md"
+                                            frameborder="0"></iframe>
+                                    <button onclick="openPdfModal('{{ asset('storage/' . $survey->document_path_3) }}')"
+                                            class="text-blue-500 hover:text-blue-700 underline mt-2">
+                                        View Document 3
+                                    </button>
+                                </div>
                             @endif
                             @if(empty($survey->document_path) && empty($survey->document_path_2) && empty($survey->document_path_3))
-                                <li class="text-gray-600 italic">No documents available.</li>
+                                <p class="text-gray-600 italic">No documents available.</p>
                             @endif
-                        </ul>
+                        </div>
                     </div>
 
                 </div>
@@ -132,7 +144,7 @@
 
     <!-- Modal for Viewing PDF -->
     <div id="pdfModal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
-        <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg">
+        <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
             <button class="close-modal text-red-500 mb-4 font-semibold">Close</button>
             <iframe id="pdfIframe" class="w-full h-96 rounded" src="" frameborder="0"></iframe>
         </div>
