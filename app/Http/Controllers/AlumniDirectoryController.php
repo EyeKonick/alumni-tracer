@@ -11,7 +11,7 @@ class AlumniDirectoryController extends Controller
     {
 
         $alumniData = PersonalData::with('professionalData')
-            ->orderBy('created_at')
+            ->orderBy('created_at', 'desc')
             ->paginate(15);
 
         return view('directory', compact('alumniData'));
@@ -84,7 +84,7 @@ class AlumniDirectoryController extends Controller
         echo '<body>';
 
         // Optional title for the export
-        echo '<h1>Alumni Directory</h1>'; 
+        echo '<h1>Alumni Directory</h1>';
 
         echo '<table>';
         echo '<tr>';
