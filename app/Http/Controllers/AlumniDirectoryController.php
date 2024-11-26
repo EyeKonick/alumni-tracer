@@ -9,44 +9,69 @@ class AlumniDirectoryController extends Controller
 {
     public function index(Request $request)
     {
-        $sort = $request->input('sort', 'desc');
+       
+        $startYear = $request->input('start_year');
+        $endYear = $request->input('end_year');
 
         $alumniData = PersonalData::with('professionalData')
-            ->orderBy('created_at', $sort)
+            ->when($startYear || $endYear, function ($query) use ($startYear, $endYear) {
+                if ($startYear) {
+                    $query->where('year_graduated', '>=', $startYear);
+                }
+                if ($endYear) {
+                    $query->where('year_graduated', '<=', $endYear);
+                }
+            })
+            ->orderBy('created_at')
             ->paginate(15);
 
-        return view('directory', compact('alumniData', 'sort'));
+        return view('directory', compact('alumniData'));
     }
+
 
     public function search(Request $request)
     {
         $search = $request->input('search');
-        $sort = $request->input('sort', 'desc');
+        $startYear = (int) $request->input('start_year');
+        $endYear = (int) $request->input('end_year');
 
-        $alumniData = PersonalData::query()
-            ->where('last_name', 'like', "%{$search}%")
-            ->orWhere('first_name', 'like', "%{$search}%")
-            ->orWhere('cellphone_number', 'like', "%{$search}%")
-            ->orWhere('email', 'like', "%{$search}%")
-            ->orWhere('home_address', 'like', "%{$search}%")
-            ->orWhereHas('professionalData', function ($query) use ($search) {
-                $query->where('employer', 'like', "%{$search}%")
-                      ->orWhere('employer_address', 'like', "%{$search}%")
-                      ->orWhere('present_position', 'like', "%{$search}%");
-            })
-            ->orderBy('created_at', $sort)
-            ->paginate(10);
+        $query = PersonalData::query();
 
-        return view('directory', ['alumniData' => $alumniData, 'sort' => $sort]);
+        if ($startYear && $endYear) {
+            dd($query->whereBetween('year_graduated', [$startYear, $endYear]));
+        } elseif ($startYear) {
+            $query->where('year_graduated', '>=', $startYear);
+        } elseif ($endYear) {
+            $query->where('year_graduated', '<=', $endYear);
+        }
+
+        if ($search) {
+            $query->where(function($query) use ($search) {
+                $query->where('last_name', 'like', "%{$search}%")
+                    ->orWhere('first_name', 'like', "%{$search}%")
+                    ->orWhere('cellphone_number', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('home_address', 'like', "%{$search}%")
+                    ->orWhereHas('professionalData', function ($query) use ($search) {
+                        $query->where('employer', 'like', "%{$search}%")
+                            ->orWhere('employer_address', 'like', "%{$search}%")
+                            ->orWhere('present_position', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        $alumniData = $query->orderBy('created_at', 'desc')->paginate(10);
+
+        return view('directory', ['alumniData' => $alumniData]);
     }
+
 
 
    public function exportAlumniAsExcel(Request $request)
     {
-        $sort = $request->input('sort', 'desc');
 
         $alumniData = PersonalData::with('professionalData')
-            ->orderBy('created_at', $sort)
+            ->orderBy('created_at')
             ->get();
 
         $fileName = 'alumni-directory.xls';

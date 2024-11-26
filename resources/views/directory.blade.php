@@ -23,6 +23,37 @@
 
                         <!-- Search and Print Controls -->
                         <div class="flex items-center space-x-2">
+                            <!-- Sort By Year Graduated -->
+                            <div class="flex flex-wrap w-full gap-4">
+                                @php
+                                    $startYear = 1950;
+                                    $endYear = date('Y');
+                                    $currentRoute = route('alumni.directory');
+                                @endphp
+                            
+                                <div class="flex-shrink-0 w-full">
+                                    <label for="start_year" class="block text-sm font-medium text-gray-700 mb-1">Start Year</label>
+                                    <select id="start_year" name="start_year" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-400" 
+                                        onchange="updateYearFilters()">
+                                        <option value="">Select Start Year</option>
+                                        @for ($year = $startYear; $year <= $endYear; $year++)
+                                            <option value="{{ $year }}" {{ request()->input('start_year') == $year ? 'selected' : '' }}>{{ $year }}</option>
+                                        @endfor
+                                    </select>
+                                </div>
+                            
+                                <div class="flex-shrink-0 w-full">
+                                    <label for="end_year" class="block text-sm font-medium text-gray-700 mb-1">End Year</label>
+                                    <select id="end_year" name="end_year" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-400" 
+                                        onchange="updateYearFilters()">
+                                        <option value="">Select End Year</option>
+                                        @for ($year = $startYear; $year <= $endYear; $year++)
+                                            <option value="{{ $year }}" {{ request()->input('end_year') == $year ? 'selected' : '' }}>{{ $year }}</option>
+                                        @endfor
+                                    </select>
+                                </div>
+                            </div>
+                            
                             <!-- Search Form -->
                             <form action="{{ route('alumni.search') }}" method="GET" class="relative max-w-xs w-full">
                                 <input
@@ -72,6 +103,7 @@
                                         <th class="w-2/12 border px-2 py-1">Contact No.</th>
                                         <th class="w-3/12 border px-2 py-1">Email</th>
                                         <th class="w-2/12 border px-2 py-1">Address</th>
+                                        <th class="w-2/12 border px-2 py-1">Year Graduated</th>
                                         <th class="w-2/12 border px-2 py-1">Employer</th>
                                         <th class="w-2/12 border px-2 py-1">Employer Address</th>
                                         <th class="w-2/12 border px-2 py-1">Position</th>
@@ -88,6 +120,7 @@
                                             <td class="border px-2 py-1">{{ $alumni->cellphone_number }}</td>
                                             <td class="border px-2 py-1">{{ $alumni->email }}</td>
                                             <td class="border px-2 py-1">{{ $alumni->home_address }}</td>
+                                            <td class="border px-2 py-1">{{ $alumni->year_graduated }}</td>
                                             <td class="border px-2 py-1">{{ optional($alumni->professionalData)->employer }}</td>
                                             <td class="border px-2 py-1">{{ optional($alumni->professionalData)->employer_address }}</td>
                                             <td class="border px-2 py-1">{{ optional($alumni->professionalData)->present_position }}</td>
@@ -108,7 +141,6 @@
                             </table>
                         </div>
                     </div>
-
                     <!-- Pagination Links -->
                     <div class="mt-2">
                         {{ $alumniData->links() }}
@@ -117,23 +149,33 @@
             </div>
         </div>
     </div>
-
+    <script>
+        function updateYearFilters() {
+            const startYear = document.getElementById('start_year').value;
+            const endYear = document.getElementById('end_year').value;
+            const baseUrl = @json($currentRoute);
+    
+            const queryParams = new URLSearchParams();
+            if (startYear) queryParams.append('start_year', startYear);
+            if (endYear) queryParams.append('end_year', endYear);
+    
+            window.location.href = `${baseUrl}?${queryParams.toString()}`;
+        }
+    </script>
     <!-- Print Script -->
     <script>
         function printTable() {
             const printWindow = window.open('', '', 'height=600,width=800');
             const tableContent = document.getElementById('alumniTable').outerHTML;
 
-            // Create a copy of the table, excluding the Actions column
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = tableContent;
             const rows = tempDiv.querySelectorAll('tr');
             rows.forEach(row => {
-                // Remove the last column (Actions) from each row
+        
                 row.removeChild(row.lastElementChild);
             });
 
-            // Write the table without the Actions column to the print window
             printWindow.document.write(`
                 <html>
                 <head>
@@ -151,13 +193,12 @@
                                 position: relative;
                                 padding-bottom: 10px;
                                 border-bottom: 2px solid black;
+                                margin-top: 1.5rem;
                             }
                             .header img {
-                                position: absolute;
-                                top: 0;
-                                left: 0;
-                                width: 80px; /* Adjusted logo size */
-                                height: auto;
+                                display: block;
+                                max-width: 80px; 
+                                max-height: 80px;
                             }
                             .header h1, .header h2, .header h3, .header p {
                                 margin: 0;
@@ -198,19 +239,18 @@
                                 background-color: #ffffff;
                             }
                             tr:nth-child(even) td {
-                                background-color: #f9f9f9; /* Alternating row color for visual appeal */
+                                background-color: #f9f9f9;
                             }
                             @page {
-                                size: letter landscape; /* Set default paper size to letter and orientation to landscape */
+                                size: letter landscape;
                                 margin: 15mm;
                             }
                         }
                     </style>
                 </head>
                 <body>
-                    <!-- Printing Header -->
-                    <div class="header">
-                        <img src="images/capsu_logo.jpg" alt="Logo"> <!-- Updated logo source -->
+                    <div class="header" style="margin-top: 24px">
+                        <img src="images/capsu_logo.jpg" alt="Logo" style="display: block; margin-left: auto; margin-right: auto; max-width: 80px; max-height: 80px;">
                         <h1>Republic of the Philippines</h1>
                         <h2 class="university">CAPIZ STATE UNIVERSITY</h2>
                         <h3>MAMBUSAO SATELLITE COLLEGE</h3>
@@ -224,11 +264,13 @@
             `);
 
             printWindow.document.close();
-            printWindow.print();
+            const img = printWindow.document.querySelector('img');
+            img.onload = function() {
+                printWindow.print();
+                setTimeout(function() {
+                    printWindow.close();
+                }, 400);
+            };
         }
     </script>
-
-
-
-
 </x-app-layout>

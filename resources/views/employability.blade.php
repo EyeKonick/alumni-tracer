@@ -74,14 +74,32 @@
                         </div>
 
                         <!-- Sort By Year Graduated -->
-                        <div class="flex-shrink-0 w-full md:w-1/4">
-                            <label for="sort_year_graduated" class="block text-sm font-medium text-gray-700 mb-1">Sort by Year Graduated</label>
-                            <select id="sort_year_graduated" name="sort_year_graduated" onchange="this.form.submit()" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-400">
-                                <option value="">Select</option>
-                                <option value="asc" {{ request()->input('sort_year_graduated') == 'asc' ? 'selected' : '' }}>Ascending</option>
-                                <option value="desc" {{ request()->input('sort_year_graduated') == 'desc' ? 'selected' : '' }}>Descending</option>
-                            </select>
+                        <div  class="flex flex-wrap w-full gap-4">
+                            @php
+                                $startYear = 1950;
+                                $endYear = date('Y');
+                            @endphp
+                            <div class="flex-shrink-0 w-full md:w-1/4">
+                                <label for="start_year" class="block text-sm font-medium text-gray-700 mb-1">Start Year</label>
+                                <select id="start_year" name="start_year" onchange="this.form.submit()" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-400">
+                                    <option value="">Select Start Year</option>
+                                    @for ($year = $startYear; $year <= $endYear; $year++)
+                                        <option value="{{ $year }}" {{ request()->input('start_year') == $year ? 'selected' : '' }}>{{ $year }}</option>
+                                    @endfor
+                                </select>
+                            </div>
+
+                            <div class="flex-shrink-0 w-full md:w-1/4">
+                                <label for="end_year" class="block text-sm font-medium text-gray-700 mb-1">End Year</label>
+                                <select id="end_year" name="end_year" onchange="this.form.submit()" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-400">
+                                    <option value="">Select End Year</option>
+                                    @for ($year = $startYear; $year <= $endYear; $year++)
+                                        <option value="{{ $year }}" {{ request()->input('end_year') == $year ? 'selected' : '' }}>{{ $year }}</option>
+                                    @endfor
+                                </select>
+                            </div>
                         </div>
+                                                
 
                         <!-- Sort By Employment Status -->
                         <div class="flex-shrink-0 w-full md:w-1/4">
@@ -159,6 +177,7 @@
             printWindow.document.write('th, td { border: 1px solid black; padding: 8px; text-align: left; }');
             printWindow.document.write('thead { background-color: #f2f2f2; }');
             printWindow.document.write('tbody tr:nth-child(even) { background-color: #f9f9f9; }');
+            printWindow.document.write('@page { size: landscape; }');
             printWindow.document.write('</style>');
             printWindow.document.write('</head><body >');
             printWindow.document.write('<h1>Employability Tracer Data</h1>');
@@ -168,5 +187,5 @@
             printWindow.focus();
             printWindow.print();
         }
-    </script>
+    </script>    
 </x-app-layout>
