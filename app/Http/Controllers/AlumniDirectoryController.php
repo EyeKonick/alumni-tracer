@@ -9,7 +9,7 @@ class AlumniDirectoryController extends Controller
 {
     public function index(Request $request)
     {
-       
+
         $startYear = $request->input('start_year');
         $endYear = $request->input('end_year');
 
@@ -22,7 +22,7 @@ class AlumniDirectoryController extends Controller
                     $query->where('year_graduated', '<=', $endYear);
                 }
             })
-            ->orderBy('created_at')
+            ->orderBy('created_at', 'desc')
             ->paginate(15);
 
         return view('directory', compact('alumniData'));
