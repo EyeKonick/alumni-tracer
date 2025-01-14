@@ -5,11 +5,34 @@
                 <div class="p-6 text-gray-900">
                     <h1 class="text-2xl font-bold mb-6">Graduate Tracer Data</h1>
 
+
                     <!-- Buttons -->
                     <div class="flex justify-end mb-6 space-x-2">
+
+                    {{-- Search Button --}}
+                        <div class="flex justify-center items-center">
+                            <form method="GET" action="{{ route('graduate.tracer.data') }}" class="flex space-x-2">
+                                <input
+                                    type="number"
+                                    name="year"
+                                    value="{{ old('year', $year) }}"
+                                    placeholder="Year"
+                                    class="border border-gray-300 rounded-md px-4 py-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                                />
+                                <button
+                                    type="submit"
+                                    class="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-600"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H16M8 12H16M8 8H16" />
+                                    </svg>
+                                    <span class="ml-2">Filter</span>
+                                </button>
+                            </form>
+                        </div>
                         <!-- Print Button -->
                         <button
-                            onclick="printTable()"
+                            onclick="printGraduateTracer()"
                             class="inline-flex items-center px-4 py-2 text-white bg-blue-500 hover:bg-blue-600 rounded-md shadow-sm"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -29,6 +52,7 @@
                             <span class="ml-2 text-sm">Export</span>
                         </button>
                     </div>
+
 
                     <!-- Table -->
                     <div class="overflow-x-auto">
@@ -53,11 +77,6 @@
                             </tbody>
                         </table>
                     </div>
-
-                    <!-- Pagination Links -->
-                    <div class="mt-4">
-                        {{ $data->links() }}
-                    </div>
                 </div>
             </div>
         </div>
@@ -65,18 +84,121 @@
 
     <!-- Print Script -->
     <script>
-        function printTable() {
+        function printGraduateTracer() {
+            // Get the year from the filter input
+            const yearInput = document.querySelector('input[name="year"]');
+            const year = yearInput ? yearInput.value : null;
+
+            // Title for the print view
+            const title = year
+                ? `${year} Graduate Tracer Data`
+                : 'Graduate Tracer Data';
+
             const printWindow = window.open('', '', 'height=600,width=800');
-            const tableHTML = document.querySelector('table').outerHTML;
-            printWindow.document.write('<html><head><title>Print Table</title>');
-            printWindow.document.write('<style>table { width: 100%; border-collapse: collapse; } th, td { border: 1px solid black; padding: 8px; text-align: center; } thead { background-color: #f2f2f2; } tbody tr:nth-child(even) { background-color: #f9f9f9; }</style>');
-            printWindow.document.write('</head><body>');
-            printWindow.document.write('<h1>Graduate Tracer Data</h1>');
-            printWindow.document.write(tableHTML);
-            printWindow.document.write('</body></html>');
+            const tableContent = document.querySelector('table').outerHTML;
+
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>${title}</title>
+                    <style>
+                        /* Styling for print layout */
+                        @media print {
+                            body {
+                                margin: 0;
+                                font-family: 'Arial', sans-serif;
+                            }
+                            .header {
+                                text-align: center;
+                                margin-bottom: 20px;
+                                position: relative;
+                                padding-bottom: 10px;
+                                border-bottom: 2px solid black;
+                                margin-top: 1.5rem;
+                            }
+                            .header img {
+                                display: block;
+                                max-width: 80px;
+                                max-height: 80px;
+                                margin: 0 auto;
+                            }
+                            .header h1, .header h2, .header h3, .header p {
+                                margin: 0;
+                                padding: 0;
+                            }
+                            .header h1 {
+                                font-size: 14px;
+                                font-weight: normal;
+                            }
+                            .header h2 {
+                                font-size: 26px;
+                                color: blue;
+                                font-weight: bold;
+                            }
+                            .header h3 {
+                                font-size: 18px;
+                                font-weight: bold;
+                            }
+                            .header p {
+                                font-size: 12px;
+                            }
+
+                            table {
+                                width: 100%;
+                                border-collapse: collapse;
+                                margin-top: 20px;
+                            }
+                            th, td {
+                                border: 1px solid black;
+                                padding: 10px;
+                                text-align: center;
+                            }
+                            th {
+                                background-color: #f2f2f2;
+                                font-weight: bold;
+                            }
+                            td {
+                                background-color: #ffffff;
+                            }
+                            td:first-child {
+                                text-align: left;
+                            }​
+                            tr:nth-child(even) td {
+                                background-color: #f9f9f9;
+                            }
+                            @page {
+                                size: letter landscape;
+                                margin: 15mm;
+                            }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <img src="images/capsu_logo.jpg" alt="Logo">
+                        <h1>Republic of the Philippines</h1>
+                        <h2 class="university">CAPIZ STATE UNIVERSITY</h2>
+                        <h1>Fuentes Drive, Roxas City, Capiz, Philippines</h1>
+                        <p>Tel. No. (036) 651-5347 (036) 651-5348 Fax No. (036) 620-0682</p>
+                        <p>Website: www.capsu.edu.ph | Email: mambusao@capsu.edu.ph</p>
+                    </div>
+                    <h3 style="text-align:center">MAMBUSAO SATELLITE COLLEGE</h3>
+                    <h3 style="text-align:center;">${title}</h3>
+                    ${tableContent}
+                </body>
+                </html>
+            `);
+
             printWindow.document.close();
-            printWindow.focus();
-            printWindow.print();
+            const img = printWindow.document.querySelector('img');
+            img.onload = function() {
+                printWindow.print();
+                setTimeout(function() {
+                    printWindow.close();
+                }, 400);
+            };
         }
     </script>
+
+
 </x-app-layout>

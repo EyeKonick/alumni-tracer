@@ -13,23 +13,29 @@ class GraduateTracerController extends Controller
     public function index(Request $request)
     {
         $courses = Course::all();
-
+        $year = $request->input('year', null); // Fetch year filter from the request
         $data = [];
         $totalGraduates = 0;
         $totalEmployed = 0;
 
         foreach ($courses as $course) {
-            $graduates = PersonalData::where('course_graduated_id', $course->id)->count();
-
-            $employed = ProfessionalData::whereIn('alumni_id', function ($query) use ($course) {
+            $graduatesQuery = PersonalData::where('course_graduated_id', $course->id);
+            $employedQuery = ProfessionalData::whereIn('alumni_id', function ($query) use ($course) {
                 $query->select('id')
-                      ->from('personal_data')
-                      ->where('course_graduated_id', $course->id);
+                    ->from('personal_data')
+                    ->where('course_graduated_id', $course->id);
             })
             ->whereIn('employment_status_id', [1, 2, 3])
-            ->where('is_employed', 1)
-            ->count();
+            ->where('is_employed', 1);
 
+            // Apply year filter if provided
+            if ($year) {
+                $graduatesQuery->whereYear('year_graduated', $year);
+                $employedQuery->whereYear('inclusive_from', $year);
+            }
+
+            $graduates = $graduatesQuery->count();
+            $employed = $employedQuery->count();
             $percentageEmployed = $graduates > 0 ? ($employed / $graduates) * 100 : 0;
 
             $data[] = [
@@ -50,21 +56,7 @@ class GraduateTracerController extends Controller
             'percentage_employed' => $totalGraduates > 0 ? number_format(($totalEmployed / $totalGraduates) * 100, 2) . '%' : '0%',
         ];
 
-       
-        $currentPage = $request->input('page', 1);
-
-        
-        $perPage = 15;
-        $offset = ($currentPage - 1) * $perPage;
-
-        $paginatedData = new LengthAwarePaginator(
-            array_slice($data, $offset, $perPage),
-            count($data),
-            $perPage,
-            $currentPage,
-            ['path' => $request->url(), 'query' => $request->query()]
-        );
-
-        return view('graduate-tracer', ['data' => $paginatedData]);
+        return view('graduate-tracer', ['data' => $data, 'year' => $year]);
     }
+
 }
