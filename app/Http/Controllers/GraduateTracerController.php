@@ -6,7 +6,6 @@ use App\Models\PersonalData;
 use App\Models\ProfessionalData;
 use App\Models\Course;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class GraduateTracerController extends Controller
 {
@@ -19,19 +18,22 @@ class GraduateTracerController extends Controller
         $totalEmployed = 0;
 
         foreach ($courses as $course) {
+            // Query to count graduates for the course
             $graduatesQuery = PersonalData::where('course_graduated_id', $course->id);
-            $employedQuery = ProfessionalData::whereIn('alumni_id', function ($query) use ($course) {
+
+            // Query to count employed graduates for the course
+            $employedQuery = ProfessionalData::whereIn('alumni_id', function ($query) use ($course, $year) {
                 $query->select('id')
                     ->from('personal_data')
-                    ->where('course_graduated_id', $course->id);
-            })
-            ->whereIn('employment_status_id', [1, 2, 3])
-            ->where('is_employed', 1);
+                    ->where('course_graduated_id', $course->id)
+                    ->when($year, function ($q) use ($year) {
+                        $q->whereYear('year_graduated', $year);
+                    });
+            })->where('is_employed', 1);
 
-            // Apply year filter if provided
+            // Apply year filter to graduates query
             if ($year) {
                 $graduatesQuery->whereYear('year_graduated', $year);
-                $employedQuery->whereYear('inclusive_from', $year);
             }
 
             $graduates = $graduatesQuery->count();
@@ -58,5 +60,6 @@ class GraduateTracerController extends Controller
 
         return view('graduate-tracer', ['data' => $data, 'year' => $year]);
     }
+
 
 }
