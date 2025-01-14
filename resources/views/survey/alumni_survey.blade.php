@@ -156,19 +156,19 @@
 
                 <div>
                     <label class="flex items-center space-x-2 cursor-pointer">
-                        <input 
-                            type="radio" 
-                            id="is_employed_yes" 
-                            name="is_employed" 
-                            value="1" 
-                            class="hidden peer" 
+                        <input
+                            type="radio"
+                            id="is_employed_yes"
+                            name="is_employed"
+                            value="1"
+                            class="hidden peer"
                             {{ old('is_employed') == '1' ? 'checked' : '' }}>
-                        <span 
+                        <span
                             class="w-5 h-5 border-2 border-gray-300 rounded-md flex items-center justify-center peer-checked:bg-green-500 peer-checked:border-green-500">
-                            <svg 
-                                xmlns="http://www.w3.org/2000/svg" 
-                                class="h-4 w-4 text-white hidden peer-checked:block" 
-                                viewBox="0 0 20 20" 
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-4 w-4 text-white hidden peer-checked:block"
+                                viewBox="0 0 20 20"
                                 fill="currentColor">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L9 11.586 6.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l7-7a1 1 0 000-1.414z" clip-rule="evenodd" />
                             </svg>
@@ -176,37 +176,37 @@
                         <span>Employed</span>
                     </label>
                 </div>
-                
+
                 <div>
                     <label class="flex items-center space-x-2 cursor-pointer">
-                        <input 
-                            type="radio" 
-                            id="is_employed_no" 
-                            name="is_employed" 
-                            value="0" 
-                            class="hidden peer" 
+                        <input
+                            type="radio"
+                            id="is_employed_no"
+                            name="is_employed"
+                            value="0"
+                            class="hidden peer"
                             {{ old('is_employed') == '0' ? 'checked' : '' }}>
-                        <span 
+                        <span
                             class="w-5 h-5 border-2 border-gray-300 rounded-md flex items-center justify-center peer-checked:bg-red-500 peer-checked:border-red-500">
-                            <svg 
-                                xmlns="http://www.w3.org/2000/svg" 
-                                class="h-4 w-4 text-white hidden peer-checked:block" 
-                                viewBox="0 0 20 20" 
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-4 w-4 text-white hidden peer-checked:block"
+                                viewBox="0 0 20 20"
                                 fill="currentColor">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L9 11.586 6.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l7-7a1 1 0 000-1.414z" clip-rule="evenodd" />
                             </svg>
                         </span>
-                        <span>Not Employed</span>
+                        <span>Not Traced</span>
                     </label>
-                </div>                              
+                </div>
 
 
-                <div>
+                {{-- <div>
                     <label class="inline-flex items-center">
                         <input type="checkbox" id="is_employed_no" name="is_employed" value="0" {{ old('is_employed') ? 'checked' : '' }}>
                         <span class="ml-2">Not Employed</span>
                     </label>
-                </div>
+                </div> --}}
 
 
                 <div id="employment_status_section" style="display: none;">
@@ -486,7 +486,7 @@
             //initialized
             var employmentStatusSection = document.getElementById('employment_status_section');
 
-            function toggleButtons() {  
+            function toggleButtons() {
                 if (isEmployedNo.checked) {
                     submitButtonSection.classList.remove('hidden');
                     nextButtonSection.classList.add('hidden');
