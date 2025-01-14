@@ -17,7 +17,11 @@
                                     name="year"
                                     value="{{ old('year', $year) }}"
                                     placeholder="Year"
-                                    class="border border-gray-300 rounded-md px-4 py-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                                    min="1900"
+                                    max="{{ date('Y') }}"
+                                    step="1"
+                                    class="border border-gray-300 rounded-md px-4 py-2 focus:ring-blue-500 focus:border-blue-500 text-md w-36"
+                                    required
                                 />
                                 <button
                                     type="submit"
@@ -30,6 +34,7 @@
                                 </button>
                             </form>
                         </div>
+
                         <!-- Print Button -->
                         <button
                             onclick="printGraduateTracer()"
