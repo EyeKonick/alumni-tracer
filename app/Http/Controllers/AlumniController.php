@@ -40,7 +40,7 @@ class AlumniController extends Controller
 
     public function destroy($id)
     {
-        
+
         $alumni = PersonalData::findOrFail($id);
         $alumni->alumniSurvey()->delete();
         $alumni->professionalData()->delete();
@@ -49,17 +49,27 @@ class AlumniController extends Controller
         return redirect()->route('alumni.directory')->with('success', 'Alumni deleted successfully');
     }
 
-    public function show(Request $request, $id) {
+    public function show(Request $request, $id)
+    {
         // Find the alumni record
         $alumni = PersonalData::findOrFail($id);
-    
+
         $alumniSurveys = AlumniSurvey::where('alumni_id', $id)->get();
 
         $challenges = Challenge::all()->pluck('challenge_name', 'id')->toArray();
-    
-        $professionalData = ProfessionalData::where('alumni_id', $id)->with('employmentStatus')->first(); 
-    
+
+        // Fetch professional data and handle null employmentStatus
+        $professionalData = ProfessionalData::where('alumni_id', $id)
+            ->with('employmentStatus')
+            ->first();
+
+        // Provide a default value for employmentStatus if it's null
+        if ($professionalData && !$professionalData->employmentStatus) {
+            $professionalData->employmentStatus = (object) ['status_name' => 'Unemployed'];
+        }
+
         return view('view_alumni', compact('alumni', 'alumniSurveys', 'professionalData', 'challenges'));
     }
+
 
 }
