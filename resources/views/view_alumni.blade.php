@@ -7,7 +7,7 @@
                     <!-- Back Button -->
                     <div class="mb-6">
                         <a href="{{ route('alumni.directory') }}"
-                           class="hover:bg-blue-700 text-sm font-semibold text-white bg-blue-600 py-2 px-4 rounded-md shadow-md">
+                            class="hover:bg-blue-700 text-sm font-semibold text-white bg-blue-600 py-2 px-4 rounded-md shadow-md">
                             ← BACK
                         </a>
                     </div>
@@ -23,7 +23,8 @@
                             Personal Information
                         </h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-700">
-                            <p><span class="font-bold">Name:</span> {{ $alumni->first_name }} {{ $alumni->middle_name }} {{ $alumni->last_name }}</p>
+                            <p><span class="font-bold">Name:</span> {{ $alumni->first_name }} {{ $alumni->middle_name }}
+                                {{ $alumni->last_name }}</p>
                             <p><span class="font-bold">Email:</span> {{ $alumni->email }}</p>
                             <p><span class="font-bold">Phone:</span> {{ $alumni->cellphone_number }}</p>
                             <p><span class="font-bold">Home Address:</span> {{ $alumni->home_address }}</p>
@@ -36,17 +37,18 @@
                         <h2 class="text-3xl font-semibold text-blue-700 border-b-4 border-blue-400 inline-block mb-6">
                             Survey Responses
                         </h2>
-                        @if($alumniSurveys->isEmpty())
+                        @if ($alumniSurveys->isEmpty())
                             <p class="text-gray-600 italic">No survey responses available.</p>
                         @else
                             <ul class="list-disc pl-6 space-y-4">
-                                @foreach($alumniSurveys as $survey)
+                                @foreach ($alumniSurveys as $survey)
                                     <li>
                                         <strong>Challenges Faced:</strong>
-                                        @if(is_array($survey->challenges_faced) && count($survey->challenges_faced) > 0)
+                                        @if (is_array($survey->challenges_faced) && count($survey->challenges_faced) > 0)
                                             <ul class="list-disc pl-6">
-                                                @foreach($survey->challenges_faced as $challenge_id)
-                                                    <li class="text-gray-800">{{ $challenges[$challenge_id] ?? 'Unknown Challenge' }}</li>
+                                                @foreach ($survey->challenges_faced as $challenge_id)
+                                                    <li class="text-gray-800">
+                                                        {{ $challenges[$challenge_id] ?? 'Unknown Challenge' }}</li>
                                                 @endforeach
                                             </ul>
                                         @else
@@ -63,25 +65,30 @@
                         <h2 class="text-3xl font-semibold text-blue-700 border-b-4 border-blue-400 inline-block mb-6">
                             Professional Data
                         </h2>
-                        @if($professionalData)
+                        @if ($professionalData)
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-700">
                                 <p><span class="font-bold">Company:</span> {{ $professionalData->company_name }}</p>
-                                <p><span class="font-bold">Company Address:</span> {{ $professionalData->company_address }}</p>
+                                <p><span class="font-bold">Company Address:</span>
+                                    {{ $professionalData->company_address }}</p>
                                 <p><span class="font-bold">Employer:</span> {{ $professionalData->employer }}</p>
-                                <p><span class="font-bold">Employer Address:</span> {{ $professionalData->employer_address }}</p>
-                                <p><span class="font-bold">Employment Status:</span> {{ $professionalData->employmentStatus->status_name }}</p>
-                                <p><span class="font-bold">Current Position:</span> {{ $professionalData->present_position }}</p>
-                                <p><span class="font-bold">Inclusive From:</span> {{ $professionalData->inclusive_from }}
+                                <p><span class="font-bold">Employer Address:</span>
+                                    {{ $professionalData->employer_address }}</p>
+                                <p><span class="font-bold">Employment Status:</span>
+                                    {{ $professionalData->employmentStatus->status_name }}</p>
+                                <p><span class="font-bold">Current Position:</span>
+                                    {{ $professionalData->present_position }}</p>
+                                <p><span class="font-bold">Inclusive From:</span>
+                                    {{ $professionalData->inclusive_from }}
                                     <span class="font-bold">To:</span> {{ $professionalData->inclusive_to }}
                                 </p>
                             </div>
                             <div class="mt-4">
                                 <p class="font-bold">Skills:</p>
-                                @if($professionalData->skills->isEmpty())
-                                <p class="text-gray-600 italic">No skills available.</p>
+                                @if ($professionalData->skills->isEmpty())
+                                    <p class="text-gray-600 italic">No skills available.</p>
                                 @else
                                     <ul class="list-decimal pl-6 mt-2">
-                                        @foreach($professionalData->skills as $skill)
+                                        @foreach ($professionalData->skills as $skill)
                                             <li>{{ $skill->skill_name }}</li>
                                         @endforeach
                                     </ul>
@@ -98,40 +105,39 @@
                             Documents
                         </h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            @if(!empty($survey->document_path))
-                                <div class="border rounded-lg shadow-md p-4 flex items-center flex-col">
+                            @if (!empty($survey->document_path))
+                                <div class="border rounded-lg shadow-md p-4 flex flex-col items-center">
                                     <img src="{{ asset('storage/' . $survey->document_path) }}"
-                                            class="bg-contain border rounded-md"
-                                            frameborder="0"></img>
+                                        class="bg-contain border rounded-md" frameborder="0"></img>
                                     <button onclick="openPdfModal('{{ asset('storage/' . $survey->document_path) }}')"
-                                            class="text-blue-500 hover:text-blue-700 underline mt-2">
+                                        class="text-blue-500 hover:text-blue-700 underline mt-2">
                                         View Document 1
                                     </button>
                                 </div>
                             @endif
-                            @if(!empty($survey->document_path_2))
-                                <div class="border rounded-lg shadow-md p-4 flex items-center flex-col">
+                            @if (!empty($survey->document_path_2))
+                                <div class="border rounded-lg shadow-md p-4 flex flex-col items-center">
                                     <img src="{{ asset('storage/' . $survey->document_path_2) }}"
-                                            class="bg-cover h-40 border rounded-md"
-                                            frameborder="0"></img>
-                                    <button onclick="openPdfModal('{{ asset('storage/' . $survey->document_path_2) }}')"
-                                            class="text-blue-500 hover:text-blue-700 underline mt-2">
+                                        class="w-full h-40 border rounded-md" frameborder="0"></img>
+                                    <button
+                                        onclick="openPdfModal('{{ asset('storage/' . $survey->document_path_2) }}')"
+                                        class="text-blue-500 hover:text-blue-700 underline mt-2">
                                         View Document 2
                                     </button>
                                 </div>
                             @endif
-                            @if(!empty($survey->document_path_3))
-                                <div class="border rounded-lg shadow-md p-4 flex items-center flex-col">
+                            @if (!empty($survey->document_path_3))
+                                <div class="border rounded-lg shadow-md p-4 flex flex-col items-center">
                                     <img src="{{ asset('storage/' . $survey->document_path_3) }}"
-                                            class="bg-cover h-40 border rounded-md"
-                                            frameborder="0"></img>
-                                    <button onclick="openPdfModal('{{ asset('storage/' . $survey->document_path_3) }}')"
-                                            class="text-blue-500 hover:text-blue-700 underline mt-2">
+                                        class="w-full h-40 border rounded-md" frameborder="0"></img>
+                                    <button
+                                        onclick="openPdfModal('{{ asset('storage/' . $survey->document_path_3) }}')"
+                                        class="text-blue-500 hover:text-blue-700 underline mt-2">
                                         View Document 3
                                     </button>
                                 </div>
                             @endif
-                            @if(empty($survey->document_path) && empty($survey->document_path_2) && empty($survey->document_path_3))
+                            @if (empty($survey->document_path) && empty($survey->document_path_2) && empty($survey->document_path_3))
                                 <p class="text-gray-600 italic">No documents available.</p>
                             @endif
                         </div>
@@ -143,36 +149,35 @@
     </div>
 
     <!-- Modal for Viewing PDF -->
-        <div id="pdfModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50">
-            <div class="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-4xl">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-bold text-gray-800">Document Preview</h2>
-                    <button class="close-modal text-red-500 font-semibold hover:text-red-700">Close ✖</button>
-                </div>
-                <img id="pdfIframe" class="w-full h-[80vh] border rounded-md bg-contain" src="" frameborder="0"></img>
+    <div id="pdfModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex justify-center items-center">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-4xl">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold text-gray-800">Document Preview</h2>
+                <button class="close-modal text-red-500 font-semibold hover:text-red-700">Close ✖</button>
             </div>
+            <img id="pdfIframe" class="w-full h-[80vh] border rounded-md" src="" frameborder="0"></img>
         </div>
+    </div>
 
-        <script>
-            function openPdfModal(pdfUrl) {
-                const modal = document.getElementById('pdfModal');
-                const iframe = document.getElementById('pdfIframe');
+    <script>
+        function openPdfModal(pdfUrl) {
+            const modal = document.getElementById('pdfModal');
+            const iframe = document.getElementById('pdfIframe');
 
-                iframe.src = pdfUrl;
-                modal.classList.remove('hidden');
+            iframe.src = pdfUrl;
+            modal.classList.remove('hidden');
 
-                document.querySelector('.close-modal').onclick = function () {
+            document.querySelector('.close-modal').onclick = function() {
+                modal.classList.add('hidden');
+                iframe.src = '';
+            };
+
+            modal.onclick = function(event) {
+                if (event.target === modal) {
                     modal.classList.add('hidden');
                     iframe.src = '';
-                };
-
-                modal.onclick = function (event) {
-                    if (event.target === modal) {
-                        modal.classList.add('hidden');
-                        iframe.src = '';
-                    }
-                };
-            }
-
+                }
+            };
+        }
     </script>
 </x-app-layout>
