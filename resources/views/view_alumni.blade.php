@@ -78,7 +78,7 @@
                             <div class="mt-4">
                                 <p class="font-bold">Skills:</p>
                                 @if($professionalData->skills->isEmpty())
-                                    <p class="text-gray-600 italic">No skills available.</p>
+                                <p class="text-gray-600 italic">No skills available.</p>
                                 @else
                                     <ul class="list-decimal pl-6 mt-2">
                                         @foreach($professionalData->skills as $skill)
@@ -99,10 +99,10 @@
                         </h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             @if(!empty($survey->document_path))
-                                <div class="border rounded-lg shadow-md p-4">
-                                    <iframe src="{{ asset('storage/' . $survey->document_path) }}"
-                                            class="w-full h-40 border rounded-md"
-                                            frameborder="0"></iframe>
+                                <div class="border rounded-lg shadow-md p-4 flex items-center flex-col">
+                                    <img src="{{ asset('storage/' . $survey->document_path) }}"
+                                            class="bg-contain border rounded-md"
+                                            frameborder="0"></img>
                                     <button onclick="openPdfModal('{{ asset('storage/' . $survey->document_path) }}')"
                                             class="text-blue-500 hover:text-blue-700 underline mt-2">
                                         View Document 1
@@ -110,10 +110,10 @@
                                 </div>
                             @endif
                             @if(!empty($survey->document_path_2))
-                                <div class="border rounded-lg shadow-md p-4">
-                                    <iframe src="{{ asset('storage/' . $survey->document_path_2) }}"
-                                            class="w-full h-40 border rounded-md"
-                                            frameborder="0"></iframe>
+                                <div class="border rounded-lg shadow-md p-4 flex items-center flex-col">
+                                    <img src="{{ asset('storage/' . $survey->document_path_2) }}"
+                                            class="bg-cover h-40 border rounded-md"
+                                            frameborder="0"></img>
                                     <button onclick="openPdfModal('{{ asset('storage/' . $survey->document_path_2) }}')"
                                             class="text-blue-500 hover:text-blue-700 underline mt-2">
                                         View Document 2
@@ -121,10 +121,10 @@
                                 </div>
                             @endif
                             @if(!empty($survey->document_path_3))
-                                <div class="border rounded-lg shadow-md p-4">
-                                    <iframe src="{{ asset('storage/' . $survey->document_path_3) }}"
-                                            class="w-full h-40 border rounded-md"
-                                            frameborder="0"></iframe>
+                                <div class="border rounded-lg shadow-md p-4 flex items-center flex-col">
+                                    <img src="{{ asset('storage/' . $survey->document_path_3) }}"
+                                            class="bg-cover h-40 border rounded-md"
+                                            frameborder="0"></img>
                                     <button onclick="openPdfModal('{{ asset('storage/' . $survey->document_path_3) }}')"
                                             class="text-blue-500 hover:text-blue-700 underline mt-2">
                                         View Document 3
@@ -143,32 +143,36 @@
     </div>
 
     <!-- Modal for Viewing PDF -->
-    <div id="pdfModal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
-        <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
-            <button class="close-modal text-red-500 mb-4 font-semibold">Close</button>
-            <iframe id="pdfIframe" class="w-full h-96 rounded" src="" frameborder="0"></iframe>
+        <div id="pdfModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50">
+            <div class="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-4xl">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-gray-800">Document Preview</h2>
+                    <button class="close-modal text-red-500 font-semibold hover:text-red-700">Close ✖</button>
+                </div>
+                <img id="pdfIframe" class="w-full h-[80vh] border rounded-md bg-contain" src="" frameborder="0"></img>
+            </div>
         </div>
-    </div>
 
-    <script>
-        function openPdfModal(pdfUrl) {
-            const modal = document.getElementById('pdfModal');
-            const iframe = document.getElementById('pdfIframe');
+        <script>
+            function openPdfModal(pdfUrl) {
+                const modal = document.getElementById('pdfModal');
+                const iframe = document.getElementById('pdfIframe');
 
-            iframe.src = pdfUrl;
-            modal.classList.remove('hidden');
+                iframe.src = pdfUrl;
+                modal.classList.remove('hidden');
 
-            document.querySelector('.close-modal').onclick = function () {
-                modal.classList.add('hidden');
-                iframe.src = '';
-            };
-
-            modal.onclick = function (event) {
-                if (event.target === modal) {
+                document.querySelector('.close-modal').onclick = function () {
                     modal.classList.add('hidden');
                     iframe.src = '';
-                }
-            };
-        }
+                };
+
+                modal.onclick = function (event) {
+                    if (event.target === modal) {
+                        modal.classList.add('hidden');
+                        iframe.src = '';
+                    }
+                };
+            }
+
     </script>
 </x-app-layout>
