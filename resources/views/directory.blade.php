@@ -3,12 +3,12 @@
         <div class="w-full mx-auto sm:px-4 lg:px-6">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-4 text-gray-900">
-                    <div class="flex items-center justify-between mb-4">
-                        <h1 class="text-xl font-bold">Alumni Directory</h1>
-
+                    <div class="flex items-center justify-between mb-4 flex-col">
                         <!-- Success Message with Auto Dismiss -->
-                        @if(session('success'))
-                            <div id="success-message" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6" role="alert">
+                        @if (session('success'))
+                            <div id="success-message"
+                                class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6"
+                                role="alert">
                                 <strong class="font-bold">Success!</strong>
                                 <span class="block sm:inline">{{ session('success') }}</span>
                             </div>
@@ -17,12 +17,14 @@
                             <script>
                                 setTimeout(function() {
                                     document.getElementById('success-message').style.display = 'none';
-                                }, 5000); // 5000ms = 5 seconds
+                                }, 3000); // 5000ms = 5 seconds
                             </script>
                         @endif
+                        <h1 class="text-4xl font-bold my-5">Alumni Directory</h1>
+
 
                         <!-- Search and Print Controls -->
-                        <div class="flex items-center space-x-2">
+                        <div class="flex items-center space-x-2 w-full">
                             <!-- Sort By Year Graduated -->
                             <div class="flex flex-wrap w-full gap-4">
                                 @php
@@ -30,61 +32,68 @@
                                     $endYear = date('Y');
                                     $currentRoute = route('alumni.directory');
                                 @endphp
-                            
-                                <div class="flex-shrink-0 w-full">
-                                    <label for="start_year" class="block text-sm font-medium text-gray-700 mb-1">Start Year</label>
-                                    <select id="start_year" name="start_year" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-400" 
+
+                                <div class="flex-shrink-0 w-64">
+                                    <select id="start_year" name="start_year"
+                                        class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-400"
                                         onchange="updateYearFilters()">
                                         <option value="">Select Start Year</option>
-                                        @for ($year = $startYear; $year <= $endYear; $year++)
-                                            <option value="{{ $year }}" {{ request()->input('start_year') == $year ? 'selected' : '' }}>{{ $year }}</option>
+                                        @for ($year = $endYear; $year >= $startYear; $year--)
+                                            <option value="{{ $year }}"
+                                                {{ request()->input('start_year') == $year ? 'selected' : '' }}>
+                                                {{ $year }}</option>
                                         @endfor
                                     </select>
+
                                 </div>
-                            
-                                <div class="flex-shrink-0 w-full">
-                                    <label for="end_year" class="block text-sm font-medium text-gray-700 mb-1">End Year</label>
-                                    <select id="end_year" name="end_year" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-400" 
+
+                                <div class="flex-shrink-0 w-64">
+                                    <select id="end_year" name="end_year"
+                                        class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-400"
                                         onchange="updateYearFilters()">
                                         <option value="">Select End Year</option>
-                                        @for ($year = $startYear; $year <= $endYear; $year++)
-                                            <option value="{{ $year }}" {{ request()->input('end_year') == $year ? 'selected' : '' }}>{{ $year }}</option>
+                                        @for ($year = $endYear; $year >= $startYear; $year--)
+                                            <option value="{{ $year }}"
+                                                {{ request()->input('end_year') == $year ? 'selected' : '' }}>
+                                                {{ $year }}</option>
                                         @endfor
                                     </select>
                                 </div>
                             </div>
-                            
+
                             <!-- Search Form -->
                             <form action="{{ route('alumni.search') }}" method="GET" class="relative max-w-xs w-full">
-                                <input
-                                    type="text"
-                                    name="search"
-                                    value="{{ request()->input('search') }}"
+                                <input type="text" name="search" value="{{ request()->input('search') }}"
                                     placeholder="Search..."
-                                    class="block w-full px-3 py-1.5 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-400"
-                                />
-                                <button
-                                    type="submit"
-                                    class="absolute inset-y-0 right-0 flex items-center px-3 bg-red-500 text-white hover:bg-red-600 rounded-r-md"
-                                >
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a7 7 0 100 14 7 7 0 000-14zm6.65 11.35a1 1 0 00-1.3-.45 9.978 9.978 0 00-2.62-1.1 1 1 0 00-.64 1.89c.65.31 1.32.6 2.01.84a1 1 0 00.93-.21z" />
+                                    class="block w-full px-3 py-1.5 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-400" />
+                                <button type="submit"
+                                    class="absolute inset-y-0 right-0 flex items-center px-3 bg-red-500 text-white hover:bg-red-600 rounded-r-md">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M11 4a7 7 0 100 14 7 7 0 000-14zm6.65 11.35a1 1 0 00-1.3-.45 9.978 9.978 0 00-2.62-1.1 1 1 0 00-.64 1.89c.65.31 1.32.6 2.01.84a1 1 0 00.93-.21z" />
                                     </svg>
                                 </button>
                             </form>
 
                             <!-- Print Button -->
-                            <button onclick="printTable()" class="inline-flex items-center px-3 py-1 text-white bg-blue-500 hover:bg-blue-600 rounded-md">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 10h12m-6-6v6M6 18h12m-6-6v6m4 4H8m4-4v4M4 8h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V10a2 2 0 012-2z" />
+                            <button onclick="printTable()"
+                                class="inline-flex items-center px-4 py-3 text-white bg-blue-500 hover:bg-blue-600 rounded-md">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 10h12m-6-6v6M6 18h12m-6-6v6m4 4H8m4-4v4M4 8h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V10a2 2 0 012-2z" />
                                 </svg>
-                                <span class="ml-1 text-xs">Print</span>
+                                <span class="ml-2 text-xs">Print</span>
                             </button>
 
                             <!-- Export to Excel Button -->
-                            <a href="{{ route('alumni.export') }}" class="inline-flex items-center px-4 py-2 text-white bg-green-600 hover:bg-green-700 rounded-md shadow-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM6 2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4a2 2 0 012-2zM10 14l2 2 2-2m-2-6v6" />
+                            <a href="{{ route('alumni.export') }}"
+                                class="inline-flex items-center px-4 py-3 text-white bg-green-600 hover:bg-green-700 rounded-md shadow-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 6a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM6 2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4a2 2 0 012-2zM10 14l2 2 2-2m-2-6v6" />
                                 </svg>
                                 <span class="ml-2 text-sm">Export</span>
                             </a>
@@ -112,26 +121,34 @@
                                     </tr>
                                 </thead>
                                 <tbody class="text-xs">
-                                    @foreach($alumniData as $index => $alumni)
+                                    @foreach ($alumniData as $index => $alumni)
                                         <tr class="bg-white border-b">
-                                            <td class="border px-2 py-1 text-center">{{ $alumniData->firstItem() + $index }}</td>
+                                            <td class="border px-2 py-1 text-center">
+                                                {{ $alumniData->firstItem() + $index }}</td>
                                             <td class="border px-2 py-1">{{ $alumni->last_name }}</td>
                                             <td class="border px-2 py-1">{{ $alumni->first_name }}</td>
                                             <td class="border px-2 py-1">{{ $alumni->cellphone_number }}</td>
                                             <td class="border px-2 py-1">{{ $alumni->email }}</td>
                                             <td class="border px-2 py-1">{{ $alumni->home_address }}</td>
                                             <td class="border px-2 py-1">{{ $alumni->year_graduated }}</td>
-                                            <td class="border px-2 py-1">{{ optional($alumni->professionalData)->employer }}</td>
-                                            <td class="border px-2 py-1">{{ optional($alumni->professionalData)->employer_address }}</td>
-                                            <td class="border px-2 py-1">{{ optional($alumni->professionalData)->present_position }}</td>
+                                            <td class="border px-2 py-1">
+                                                {{ optional($alumni->professionalData)->employer }}</td>
+                                            <td class="border px-2 py-1">
+                                                {{ optional($alumni->professionalData)->employer_address }}</td>
+                                            <td class="border px-2 py-1">
+                                                {{ optional($alumni->professionalData)->present_position }}</td>
                                             <td class="border px-2 py-1 text-center">
                                                 <div class="flex justify-center space-x-2">
-                                                    <a href="{{ route('alumni.view', $alumni->id) }}" class="hover:bg-green-700 text-xs font-semibold text-white bg-green-600 py-1 px-2 rounded-md">View</a>
-                                                    <a href="{{ route('alumni.edit', $alumni->id) }}" class="hover:bg-blue-700 text-xs font-semibold text-white bg-blue-600 py-1 px-2 rounded-md">Edit</a>
-                                                    <form action="{{ route('alumni.delete', $alumni->id) }}" method="POST" onsubmit="return confirm('Are you sure?')">
+                                                    <a href="{{ route('alumni.view', $alumni->id) }}"
+                                                        class="hover:bg-green-700 text-xs font-semibold text-white bg-green-600 py-1 px-2 rounded-md">View</a>
+                                                    <a href="{{ route('alumni.edit', $alumni->id) }}"
+                                                        class="hover:bg-blue-700 text-xs font-semibold text-white bg-blue-600 py-1 px-2 rounded-md">Edit</a>
+                                                    <form action="{{ route('alumni.delete', $alumni->id) }}"
+                                                        method="POST" onsubmit="return confirm('Are you sure?')">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="bg-red-500 hover:bg-red-700 text-xs font-semibold text-white py-1 px-2 rounded-md">Delete</button>
+                                                        <button type="submit"
+                                                            class="bg-red-500 hover:bg-red-700 text-xs font-semibold text-white py-1 px-2 rounded-md">Delete</button>
                                                     </form>
                                                 </div>
                                             </td>
@@ -154,11 +171,11 @@
             const startYear = document.getElementById('start_year').value;
             const endYear = document.getElementById('end_year').value;
             const baseUrl = @json($currentRoute);
-    
+
             const queryParams = new URLSearchParams();
             if (startYear) queryParams.append('start_year', startYear);
             if (endYear) queryParams.append('end_year', endYear);
-    
+
             window.location.href = `${baseUrl}?${queryParams.toString()}`;
         }
     </script>
@@ -172,7 +189,7 @@
             tempDiv.innerHTML = tableContent;
             const rows = tempDiv.querySelectorAll('tr');
             rows.forEach(row => {
-        
+
                 row.removeChild(row.lastElementChild);
             });
 
@@ -197,7 +214,7 @@
                             }
                             .header img {
                                 display: block;
-                                max-width: 80px; 
+                                max-width: 80px;
                                 max-height: 80px;
                             }
                             .header h1, .header h2, .header h3, .header p {

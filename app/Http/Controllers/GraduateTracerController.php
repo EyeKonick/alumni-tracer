@@ -12,16 +12,16 @@ class GraduateTracerController extends Controller
     public function index(Request $request)
     {
         $courses = Course::all();
-        $year = $request->input('year', null); // Fetch year filter from the request
+        $year = $request->input('year', null);
         $data = [];
         $totalGraduates = 0;
         $totalEmployed = 0;
 
         foreach ($courses as $course) {
-            // Query to count graduates for the course
+
             $graduatesQuery = PersonalData::where('course_graduated_id', $course->id);
 
-            // Query to count employed graduates for the course
+
             $employedQuery = ProfessionalData::whereIn('alumni_id', function ($query) use ($course, $year) {
                 $query->select('id')
                     ->from('personal_data')
@@ -31,7 +31,7 @@ class GraduateTracerController extends Controller
                     });
             })->where('is_employed', 1);
 
-            // Apply year filter to graduates query
+
             if ($year) {
                 $graduatesQuery->whereYear('year_graduated', $year);
             }

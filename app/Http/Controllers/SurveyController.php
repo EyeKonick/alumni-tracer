@@ -18,7 +18,6 @@ class SurveyController extends Controller
 {
     public function showSurveyForm()
     {
-        // Fetch data needed for the form
         $genders = Gender::all();
         $challenges = Challenge::all();
         $civilStatuses = CivilStatus::all();
@@ -33,7 +32,7 @@ class SurveyController extends Controller
     public function submitAlumniSurveyForm(Request $request)
     {
         $request->validate([
-            // Personal Data Validation
+
             'first_name' => 'required|string|max:255',
             'middle_name' => 'nullable|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -46,7 +45,7 @@ class SurveyController extends Controller
             'cellphone_number' => 'required|string|min:11|max:11',
             'email' => 'required|email|unique:personal_data,email',
 
-            // Professional Data Validation
+
             'company_name' => 'nullable|required_if:is_employed,1|string|max:255',
             'company_address' => 'nullable|required_if:is_employed,1|string',
             'employer' => 'nullable|required_if:is_employed,1|string|max:255',
@@ -60,7 +59,7 @@ class SurveyController extends Controller
             'skills_used' => 'nullable|required_if:is_employed,1|array',
             'skills_used.*' => 'exists:skills,id',
 
-            // Alumni Survey Validation
+
             'degree_skills_in_line' => 'nullable|required_if:is_employed,1|boolean',
             'additional_info_text' => 'nullable|string',
             'challenges_faced' => 'nullable|required_if:is_employed,1|array',
@@ -72,20 +71,38 @@ class SurveyController extends Controller
         ]);
 
         $personalData = PersonalData::create($request->only([
-            'first_name', 'middle_name', 'last_name', 'gender_id', 'age', 'civil_status_id',
-            'year_graduated', 'course_graduated_id', 'home_address', 'cellphone_number', 'email'
+            'first_name',
+            'middle_name',
+            'last_name',
+            'gender_id',
+            'age',
+            'civil_status_id',
+            'year_graduated',
+            'course_graduated_id',
+            'home_address',
+            'cellphone_number',
+            'email'
         ]));
 
         $professionalData = new ProfessionalData($request->only([
-            'company_name', 'company_address', 'employer', 'employer_address', 'is_employed', 'is_traced', 'employment_status_id',
-            'present_position', 'inclusive_from', 'inclusive_to', 'monthly_income_id'
+            'company_name',
+            'company_address',
+            'employer',
+            'employer_address',
+            'is_employed',
+            'is_traced',
+            'employment_status_id',
+            'present_position',
+            'inclusive_from',
+            'inclusive_to',
+            'monthly_income_id'
         ]));
         $professionalData->alumni_id = $personalData->id;
         $professionalData->save();
 
         $professionalData->skills()->sync($request->input('skills_used'));
 
-        // Handle document uploads
+
         $documentPaths = [];
         if ($request->hasFile('document_path')) {
             $documentPaths['document_path'] = $request->file('document_path')->store('documents', 'public');

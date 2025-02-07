@@ -49,6 +49,8 @@ Route::put('/alumni/{id}', [AlumniController::class, 'update'])->name('alumni.up
 
 // Delete Alumni Route (Deletes the record)
 Route::delete('/alumni/{id}', [AlumniController::class, 'destroy'])->name('alumni.delete');
+Route::post('/alumni/delete-document', [AlumniController::class, 'deleteDocument'])->name('alumni.deleteDocument');
+
 
 
 

@@ -95,7 +95,7 @@ class AlumniDirectoryController extends Controller
         echo '</head>';
         echo '<body>';
 
-        // Optional title for the export
+
         echo '<h1>Alumni Directory</h1>';
 
         echo '<table>';
@@ -110,7 +110,6 @@ class AlumniDirectoryController extends Controller
         echo '<th>Position</th>';
         echo '</tr>';
 
-        // Populate the table with data
         foreach ($alumniData as $index => $alum) {
             echo '<tr>';
             echo '<td>' . ($index + 1) . '</td>';

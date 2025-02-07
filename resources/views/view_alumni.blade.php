@@ -108,7 +108,7 @@
                             @if (!empty($survey->document_path))
                                 <div class="border rounded-lg shadow-md p-4 flex flex-col items-center">
                                     <img src="{{ asset('storage/' . $survey->document_path) }}"
-                                        class="bg-contain border rounded-md" frameborder="0"></img>
+                                        class="w-full h-48 border rounded-md" frameborder="0"></img>
                                     <button onclick="openPdfModal('{{ asset('storage/' . $survey->document_path) }}')"
                                         class="text-blue-500 hover:text-blue-700 underline mt-2">
                                         View Document 1
@@ -118,7 +118,7 @@
                             @if (!empty($survey->document_path_2))
                                 <div class="border rounded-lg shadow-md p-4 flex flex-col items-center">
                                     <img src="{{ asset('storage/' . $survey->document_path_2) }}"
-                                        class="w-full h-40 border rounded-md" frameborder="0"></img>
+                                        class="w-full h-48 border rounded-md" frameborder="0"></img>
                                     <button
                                         onclick="openPdfModal('{{ asset('storage/' . $survey->document_path_2) }}')"
                                         class="text-blue-500 hover:text-blue-700 underline mt-2">
@@ -129,7 +129,7 @@
                             @if (!empty($survey->document_path_3))
                                 <div class="border rounded-lg shadow-md p-4 flex flex-col items-center">
                                     <img src="{{ asset('storage/' . $survey->document_path_3) }}"
-                                        class="w-full h-40 border rounded-md" frameborder="0"></img>
+                                        class="w-full h-48 border rounded-md" frameborder="0"></img>
                                     <button
                                         onclick="openPdfModal('{{ asset('storage/' . $survey->document_path_3) }}')"
                                         class="text-blue-500 hover:text-blue-700 underline mt-2">
