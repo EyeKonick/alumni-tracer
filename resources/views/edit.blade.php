@@ -147,18 +147,21 @@
                                                 value="{{ $professionalData->present_position }}"
                                                 class="w-full p-2 border rounded-md">
                                         </div>
-                                        <div>
-                                            <label for="inclusive_from" class="block font-bold">Inclusive
-                                                From:</label>
-                                            <input type="date" name="inclusive_from" id="inclusive_from"
-                                                value="{{ $professionalData->inclusive_from }}"
-                                                class="w-full p-2 border rounded-md">
-                                        </div>
-                                        <div>
-                                            <label for="inclusive_to" class="block font-bold">To:</label>
-                                            <input type="date" name="inclusive_to" id="inclusive_to"
-                                                value="{{ $professionalData->inclusive_to }}"
-                                                class="w-full p-2 border rounded-md">
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-700">
+                            
+
+                                            <div>
+                                                <label for="inclusive_from" class="block font-bold">Inclusive From:</label>
+                                                <input type="number" name="inclusive_from" id="inclusive_from"
+                                                       value="{{ $professionalData->inclusive_from }}"
+                                                       class="w-full p-2 border rounded-md" min="1900" max="2099" step="1" placeholder="YYYY">
+                                            </div>
+                                            <div>
+                                                <label for="inclusive_to" class="block font-bold">To:</label>
+                                                <input type="number" name="inclusive_to" id="inclusive_to"
+                                                       value="{{ $professionalData->inclusive_to }}"
+                                                       class="w-full p-2 border rounded-md" min="1900" max="2099" step="1" placeholder="YYYY">
+                                            </div>
                                         </div>
                                     </div>
 

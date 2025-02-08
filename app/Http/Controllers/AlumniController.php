@@ -83,6 +83,8 @@ class AlumniController extends Controller
             'new_document_path' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
             'new_document_path_2' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
             'new_document_path_3' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
+            'inclusive_from' => 'nullable|integer|min:1900|max:2099',
+            'inclusive_to' => 'nullable|integer|min:1900|max:2099',   
         ]);
 
         $alumni = PersonalData::findOrFail($id);
@@ -101,6 +103,8 @@ class AlumniController extends Controller
             $professionalData->alumni_id = $id;
         }
         $professionalData->employment_status_id = $request->employment_status_id;
+        $professionalData->inclusive_from = $request->inclusive_from;
+        $professionalData->inclusive_to = $request->inclusive_to;
         $professionalData->save();
 
         if ($request->has('skills')) {
