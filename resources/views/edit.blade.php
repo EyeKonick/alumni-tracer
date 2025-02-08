@@ -188,65 +188,91 @@
                                 @endif
                             </div>
 
-                        <!-- Documents Section -->
-                        <div class="mb-12">
-                            <h2 class="text-3xl font-semibold text-blue-700 border-b-4 border-blue-400 inline-block mb-6">
-                                Documents
-                            </h2>
-                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                @php
-                                    $uploadedDocuments = [
-                                        'document_path' => !empty($survey->document_path),
-                                        'document_path_2' => !empty($survey->document_path_2),
-                                        'document_path_3' => !empty($survey->document_path_3),
-                                    ];
-                                    $availableSlots = array_filter($uploadedDocuments, fn($isOccupied) => !$isOccupied);
-                                @endphp
+                            <!-- Documents Section -->
+                            <div class="mb-12">
+                                <h2
+                                    class="text-3xl font-semibold text-blue-700 border-b-4 border-blue-400 inline-block mb-6">
+                                    Documents
+                                </h2>
+                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    @php
+                                        $uploadedDocuments = [
+                                            'document_path' => !empty($survey->document_path),
+                                            'document_path_2' => !empty($survey->document_path_2),
+                                            'document_path_3' => !empty($survey->document_path_3),
+                                        ];
+                                        $availableSlots = array_filter(
+                                            $uploadedDocuments,
+                                            fn($isOccupied) => !$isOccupied,
+                                        );
+                                    @endphp
 
-                                @if (!empty($survey->document_path))
-                                <div class="border rounded-lg shadow-md p-4 flex flex-col items-center">
-                                    <img src="{{ asset('storage/' . $survey->document_path) }}" class="w-full h-48 border rounded-md" frameborder="0"></img>
-                                    <button type="button" onclick="openPdfModal('{{ asset('storage/' . $survey->document_path) }}')" class="text-blue-500 hover:text-blue-700 underline mt-2">
-                                        View Document 1
-                                    </button>
-                                    <button type="button" onclick="deleteDocument('{{ $survey->document_path }}', 'document_path')" class="text-red-500 hover:text-red-700 underline mt-2">
-                                        Delete Document 1
-                                    </button>
+                                    @if (!empty($survey->document_path))
+                                        <div class="border rounded-lg shadow-md p-4 flex flex-col items-center">
+                                            <img src="{{ asset('storage/' . $survey->document_path) }}"
+                                                class="w-full h-48 border rounded-md" frameborder="0"></img>
+                                            <div class="flex gap-4">
+                                                <button type="button"
+                                                    onclick="openPdfModal('{{ asset('storage/' . $survey->document_path) }}')"
+                                                    class="hover:text-blue-700 mt-2 py-2 px-6 bg-blue-500 text-white rounded-md">
+                                                    View
+                                                </button>
+                                                <button type="button"
+                                                    onclick="deleteDocument('{{ $survey->document_path }}', 'document_path')"
+                                                    class="hover:text-blue-700 mt-2 py-2 px-6 bg-red-500 text-white rounded-md">
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        </div>
+                                    @endif
+                                    @if (!empty($survey->document_path_2))
+                                        <div class="border rounded-lg shadow-md p-4 flex flex-col items-center">
+                                            <img src="{{ asset('storage/' . $survey->document_path_2) }}"
+                                                class="w-full h-48 border rounded-md" frameborder="0"></img>
+                                            <div class="flex gap-4">
+                                                <button type="button"
+                                                    onclick="openPdfModal('{{ asset('storage/' . $survey->document_path_2) }}')"
+                                                    class="hover:text-blue-700 mt-2 py-2 px-6 bg-blue-500 text-white rounded-md">
+                                                    View
+                                                </button>
+                                                <button type="button"
+                                                    onclick="deleteDocument('{{ $survey->document_path_2 }}', 'document_path_2')"
+                                                    class="hover:text-blue-700 mt-2 py-2 px-6 bg-red-500 text-white rounded-md">
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        </div>
+                                    @endif
+                                    @if (!empty($survey->document_path_3))
+                                        <div class="border rounded-lg shadow-md p-4 flex flex-col items-center">
+                                            <img src="{{ asset('storage/' . $survey->document_path_3) }}"
+                                                class="w-full h-48 border rounded-md" frameborder="0"></img>
+                                            <div class="flex gap-4">
+                                                <button type="button"
+                                                    onclick="openPdfModal('{{ asset('storage/' . $survey->document_path_3) }}')"
+                                                    class="hover:text-blue-700 mt-2 py-2 px-6 bg-blue-500 text-white rounded-md">
+                                                    View
+                                                </button>
+                                                <button type="button"
+                                                    onclick="deleteDocument('{{ $survey->document_path_3 }}', 'document_path_3')"
+                                                    class="hover:text-blue-700 mt-2 py-2 px-6 bg-red-500 text-white rounded-md">
+                                                    Delete
+                                                </button>
+                                            </div>
+                                    @endif
+                                    @if (count($availableSlots) === 0)
+                                        <p class="text-gray-600 italic">No document slot left</p>
+                                    @endif
                                 </div>
-                                @endif
-                                @if (!empty($survey->document_path_2))
-                                <div class="border rounded-lg shadow-md p-4 flex flex-col items-center">
-                                    <img src="{{ asset('storage/' . $survey->document_path_2) }}" class="w-full h-48 border rounded-md" frameborder="0"></img>
-                                    <button type="button" onclick="openPdfModal('{{ asset('storage/' . $survey->document_path_2) }}')" class="text-blue-500 hover:text-blue-700 underline mt-2">
-                                        View Document 2
-                                    </button>
-                                    <button type="button" onclick="deleteDocument('{{ $survey->document_path_2 }}', 'document_path_2')" class="text-red-500 hover:text-red-700 underline mt-2">
-                                        Delete Document 2
-                                    </button>
+                                <div class="mt-6">
+                                    @foreach ($availableSlots as $slot => $isOccupied)
+                                        <label for="new_{{ $slot }}" class="block font-bold">Upload New
+                                            {{ ucfirst(str_replace('_', ' ', $slot)) }}:</label>
+                                        <input type="file" name="new_{{ $slot }}"
+                                            id="new_{{ $slot }}" class="w-full p-2 border rounded-md mb-4">
+                                    @endforeach
                                 </div>
-                                @endif
-                                @if (!empty($survey->document_path_3))
-                                <div class="border rounded-lg shadow-md p-4 flex flex-col items-center">
-                                    <img src="{{ asset('storage/' . $survey->document_path_3) }}" class="w-full h-48 border rounded-md" frameborder="0"></img>
-                                    <button type="button" onclick="openPdfModal('{{ asset('storage/' . $survey->document_path_3) }}')" class="text-blue-500 hover:text-blue-700 underline mt-2">
-                                        View Document 3
-                                    </button>
-                                    <button type="button" onclick="deleteDocument('{{ $survey->document_path_3 }}', 'document_path_3')" class="text-red-500 hover:text-red-700 underline mt-2">
-                                        Delete Document 3
-                                    </button>
-                                </div>
-                                @endif
-                                @if (count($availableSlots) === 0)
-                                    <p class="text-gray-600 italic">No document slot left</p>
-                                @endif
                             </div>
-                            <div class="mt-6">
-                                @foreach ($availableSlots as $slot => $isOccupied)
-                                    <label for="new_{{ $slot }}" class="block font-bold">Upload New {{ ucfirst(str_replace('_', ' ', $slot)) }}:</label>
-                                    <input type="file" name="new_{{ $slot }}" id="new_{{ $slot }}" class="w-full p-2 border rounded-md mb-4">
-                                @endforeach
-                            </div>
-                        </div>
 
                             <div class="flex justify-end mt-6">
                                 <button type="submit"
@@ -295,31 +321,31 @@
         }
 
         function deleteDocument(documentPath, field) {
-        if (confirm('Are you sure you want to delete this document?')) {
-            fetch('{{ route('alumni.deleteDocument') }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({
-                    document_path: documentPath,
-                    field: field // Pass the field to identify which document to delete
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Document deleted successfully');
-                    location.reload(); // Refresh the page
-                } else {
-                    alert('Error deleting document');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+            if (confirm('Are you sure you want to delete this document?')) {
+                fetch('{{ route('alumni.deleteDocument') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            document_path: documentPath,
+                            field: field // Pass the field to identify which document to delete
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Document deleted successfully');
+                            location.reload(); // Refresh the page
+                        } else {
+                            alert('Error deleting document');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            }
         }
-    }
     </script>
 </x-app-layout>

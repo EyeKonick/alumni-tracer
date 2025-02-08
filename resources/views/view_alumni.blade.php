@@ -110,8 +110,8 @@
                                     <img src="{{ asset('storage/' . $survey->document_path) }}"
                                         class="w-full h-48 border rounded-md" frameborder="0"></img>
                                     <button onclick="openPdfModal('{{ asset('storage/' . $survey->document_path) }}')"
-                                        class="text-blue-500 hover:text-blue-700 underline mt-2">
-                                        View Document 1
+                                        class="hover:text-blue-700 mt-2 py-2 px-6 bg-blue-500 text-white rounded-md">
+                                        View
                                     </button>
                                 </div>
                             @endif
@@ -121,8 +121,8 @@
                                         class="w-full h-48 border rounded-md" frameborder="0"></img>
                                     <button
                                         onclick="openPdfModal('{{ asset('storage/' . $survey->document_path_2) }}')"
-                                        class="text-blue-500 hover:text-blue-700 underline mt-2">
-                                        View Document 2
+                                        class="hover:text-blue-700 mt-2 py-2 px-6 bg-blue-500 text-white rounded-md">
+                                        View
                                     </button>
                                 </div>
                             @endif
@@ -132,8 +132,8 @@
                                         class="w-full h-48 border rounded-md" frameborder="0"></img>
                                     <button
                                         onclick="openPdfModal('{{ asset('storage/' . $survey->document_path_3) }}')"
-                                        class="text-blue-500 hover:text-blue-700 underline mt-2">
-                                        View Document 3
+                                        class="hover:text-blue-700 mt-2 py-2 px-6 bg-blue-500 text-white rounded-md">
+                                        View
                                     </button>
                                 </div>
                             @endif
