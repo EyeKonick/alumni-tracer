@@ -10,6 +10,13 @@ class AlumniDirectoryController extends Controller
     public function index(Request $request)
     {
 
+        $courses = PersonalData::with('courseGraduated')
+        ->get()
+        ->pluck('courseGraduated.course_name')
+        ->unique()
+        ->sort()
+        ->values();
+
         $startYear = $request->input('start_year');
         $endYear = $request->input('end_year');
 
@@ -25,7 +32,7 @@ class AlumniDirectoryController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(15);
 
-        return view('directory', compact('alumniData'));
+        return view('directory', compact('alumniData', 'courses'));
     }
 
 
@@ -59,10 +66,17 @@ class AlumniDirectoryController extends Controller
                     });
             });
         }
+        $courses = PersonalData::with('courseGraduated')
+        ->get()
+        ->pluck('courseGraduated.course_name')
+        ->unique()
+        ->sort()
+        ->values();
 
         $alumniData = $query->orderBy('created_at', 'desc')->paginate(10);
 
-        return view('directory', ['alumniData' => $alumniData]);
+
+        return view('directory', compact('alumniData','courses'));
     }
 
 

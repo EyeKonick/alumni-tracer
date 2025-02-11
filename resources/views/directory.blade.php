@@ -4,7 +4,6 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-4 text-gray-900">
                     <div class="flex items-center justify-between mb-4 flex-col">
-                        <!-- Success Message with Auto Dismiss -->
                         @if (session('success'))
                             <div id="success-message"
                                 class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6"
@@ -13,56 +12,18 @@
                                 <span class="block sm:inline">{{ session('success') }}</span>
                             </div>
 
-                            <!-- JavaScript to auto-hide the message after 5 seconds -->
                             <script>
                                 setTimeout(function() {
                                     document.getElementById('success-message').style.display = 'none';
-                                }, 3000); // 5000ms = 5 seconds
+                                }, 3000);
                             </script>
                         @endif
                         <h1 class="text-4xl font-bold my-5">Alumni Directory</h1>
 
-
-                        <!-- Search and Print Controls -->
-                        <div class="flex items-center space-x-2 w-full">
-                            <!-- Sort By Year Graduated -->
-                            <div class="flex flex-wrap w-full gap-4">
-                                @php
-                                    $startYear = 1950;
-                                    $endYear = date('Y');
-                                    $currentRoute = route('alumni.directory');
-                                @endphp
-
-                                <div class="flex-shrink-0 w-64">
-                                    <select id="start_year" name="start_year"
-                                        class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-400"
-                                        onchange="updateYearFilters()">
-                                        <option value="">Select Start Year</option>
-                                        @for ($year = $endYear; $year >= $startYear; $year--)
-                                            <option value="{{ $year }}"
-                                                {{ request()->input('start_year') == $year ? 'selected' : '' }}>
-                                                {{ $year }}</option>
-                                        @endfor
-                                    </select>
-
-                                </div>
-
-                                <div class="flex-shrink-0 w-64">
-                                    <select id="end_year" name="end_year"
-                                        class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-400"
-                                        onchange="updateYearFilters()">
-                                        <option value="">Select End Year</option>
-                                        @for ($year = $endYear; $year >= $startYear; $year--)
-                                            <option value="{{ $year }}"
-                                                {{ request()->input('end_year') == $year ? 'selected' : '' }}>
-                                                {{ $year }}</option>
-                                        @endfor
-                                    </select>
-                                </div>
-                            </div>
-
+                          <!-- Search Form and Action Buttons -->
+                          <div class="flex items-center justify-end space-x-2 w-full mb-5">
                             <!-- Search Form -->
-                            <form action="{{ route('alumni.search') }}" method="GET" class="relative max-w-xs w-full">
+                            <form action="{{ route('alumni.directory.search') }}" method="GET" class="relative max-w-xs w-full">
                                 <input type="text" name="search" value="{{ request()->input('search') }}"
                                     placeholder="Search..."
                                     class="block w-full px-3 py-1.5 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-400" />
@@ -98,6 +59,76 @@
                                 <span class="ml-2 text-sm">Export</span>
                             </a>
                         </div>
+
+                        <!-- Filters Section -->
+                        <form action="{{ route('alumni.showDirectoryTracerData') }}" method="GET"
+                            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 w-full">
+                            <!-- Course Filter -->
+                            <div>
+                                <label for="course" class="block text-sm font-medium text-gray-700 mb-1">Course</label>
+                                <select id="course" name="course" onchange="this.form.submit()"
+                                    class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-400">
+                                    <option value="all">All Courses</option>
+                                    @foreach ($courses as $course)
+                                        <option value="{{ $course }}"
+                                            {{ request()->input('course') == $course ? 'selected' : '' }}>
+                                            {{ $course }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <!-- Sort By Last Name -->
+                            <div>
+                                <label for="sort_last_name" class="block text-sm font-medium text-gray-700 mb-1">Sort by
+                                    Last Name</label>
+                                <select id="sort_last_name" name="sort_last_name" onchange="this.form.submit()"
+                                    class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-400">
+                                    <option value="">Select</option>
+                                    <option value="asc"
+                                        {{ request()->input('sort_last_name') == 'asc' ? 'selected' : '' }}>Ascending
+                                    </option>
+                                    <option value="desc"
+                                        {{ request()->input('sort_last_name') == 'desc' ? 'selected' : '' }}>Descending
+                                    </option>
+                                </select>
+                            </div>
+
+                            <!-- Start Year Filter -->
+                            <div>
+                                @php
+                                    $startYear = 1950;
+                                    $endYear = date('Y');
+                                @endphp
+                                <label for="start_year" class="block text-sm font-medium text-gray-700 mb-1">Start
+                                    Year</label>
+                                <select id="start_year" name="start_year" onchange="this.form.submit()"
+                                    class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-400">
+                                    <option value="">Select Start Year</option>
+                                    @for ($year = $endYear; $year >= $startYear; $year--)
+                                        <option value="{{ $year }}"
+                                            {{ request()->input('start_year') == $year ? 'selected' : '' }}>
+                                            {{ $year }}</option>
+                                    @endfor
+                                </select>
+                            </div>
+
+                            <!-- End Year Filter -->
+                            <div>
+                                <label for="end_year" class="block text-sm font-medium text-gray-700 mb-1">End
+                                    Year</label>
+                                <select id="end_year" name="end_year" onchange="this.form.submit()"
+                                    class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-400">
+                                    <option value="">Select End Year</option>
+                                    @for ($year = $endYear; $year >= $startYear; $year--)
+                                        <option value="{{ $year }}"
+                                            {{ request()->input('end_year') == $year ? 'selected' : '' }}>
+                                            {{ $year }}</option>
+                                    @endfor
+                                </select>
+                            </div>
+                        </form>
+
+
                     </div>
 
                     <!-- Alumni Table -->
@@ -106,13 +137,14 @@
                             <table id="alumniTable" class="min-w-full table-auto border border-gray-300">
                                 <thead class="bg-gray-200 text-xs">
                                     <tr>
-                                        <th class="w-1/12 border px-2 py-1 text-center">No.</th>
-                                        <th class="w-2/12 border px-2 py-1">Surname</th>
-                                        <th class="w-2/12 border px-2 py-1">First Name</th>
-                                        <th class="w-2/12 border px-2 py-1">Contact No.</th>
-                                        <th class="w-3/12 border px-2 py-1">Email</th>
+                                        <th class="border px-2 py-1 text-center">No.</th>
+                                        <th class="w-1/12 border px-2 py-1">Surname</th>
+                                        <th class="w-1/12 border px-2 py-1">First Name</th>
+                                        <th class="w-3/12 border px-2 py-1">Course</th>
+                                        <th class="w-1/12 border px-2 py-1">Contact No.</th>
+                                        <th class="w-1/12 border px-2 py-1">Email</th>
                                         <th class="w-2/12 border px-2 py-1">Address</th>
-                                        <th class="w-2/12 border px-2 py-1">Year Graduated</th>
+                                        <th class="w-1/12 border px-2 py-1">Year Graduated</th>
                                         <th class="w-2/12 border px-2 py-1">Employer</th>
                                         <th class="w-2/12 border px-2 py-1">Employer Address</th>
                                         <th class="w-2/12 border px-2 py-1">Position</th>
@@ -127,10 +159,11 @@
                                                 {{ $alumniData->firstItem() + $index }}</td>
                                             <td class="border px-2 py-1">{{ $alumni->last_name }}</td>
                                             <td class="border px-2 py-1">{{ $alumni->first_name }}</td>
+                                            <td class="border px-2 py-1">{{ $alumni->courseGraduated->course_name ?? 'N/A' }}</td>
                                             <td class="border px-2 py-1">{{ $alumni->cellphone_number }}</td>
                                             <td class="border px-2 py-1">{{ $alumni->email }}</td>
                                             <td class="border px-2 py-1">{{ $alumni->home_address }}</td>
-                                            <td class="border px-2 py-1">{{ $alumni->year_graduated }}</td>
+                                            <td class="border px-2 py-1 text-center">{{ $alumni->year_graduated }}</td>
                                             <td class="border px-2 py-1">
                                                 {{ optional($alumni->professionalData)->employer }}</td>
                                             <td class="border px-2 py-1">
@@ -158,6 +191,7 @@
                             </table>
                         </div>
                     </div>
+
                     <!-- Pagination Links -->
                     <div class="mt-2">
                         {{ $alumniData->links() }}
@@ -166,19 +200,7 @@
             </div>
         </div>
     </div>
-    <script>
-        function updateYearFilters() {
-            const startYear = document.getElementById('start_year').value;
-            const endYear = document.getElementById('end_year').value;
-            const baseUrl = @json($currentRoute);
 
-            const queryParams = new URLSearchParams();
-            if (startYear) queryParams.append('start_year', startYear);
-            if (endYear) queryParams.append('end_year', endYear);
-
-            window.location.href = `${baseUrl}?${queryParams.toString()}`;
-        }
-    </script>
     <!-- Print Script -->
     <script>
         function printTable() {
@@ -189,7 +211,6 @@
             tempDiv.innerHTML = tableContent;
             const rows = tempDiv.querySelectorAll('tr');
             rows.forEach(row => {
-
                 row.removeChild(row.lastElementChild);
             });
 
