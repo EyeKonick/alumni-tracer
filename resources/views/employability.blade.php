@@ -34,15 +34,14 @@
                                 <span class="ml-2 text-sm">Print</span>
                             </button>
 
-                            <button onclick="alert('Export to Excel functionality not yet implemented')"
-                                class="inline-flex items-center px-4 py-2 text-white bg-green-600 hover:bg-green-700 rounded-md shadow-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M4 6a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM6 2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4a2 2 0 012-2zM10 14l2 2 2-2m-2-6v6" />
-                                </svg>
-                                <span class="ml-2 text-sm">Export</span>
-                            </button>
+                            <a href="{{ route('employability.export') }}"
+                            class="inline-flex items-center px-4 py-2 text-white bg-green-600 hover:bg-green-700 rounded-md shadow-sm">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                       d="M4 6a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM6 2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4a2 2 0 012-2zM10 14l2 2 2-2m-2-6v6"/>
+                             </svg>
+                             <span class="ml-2 text-sm">Export</span>
+                         </a>
                         </div>
                     </div>
 
@@ -196,22 +195,112 @@
     <script>
         function printTable() {
             const printWindow = window.open('', '', 'height=600,width=800');
-            const tableHTML = document.getElementById('employabilityTable').outerHTML;
-            printWindow.document.write('<html><head><title>Print Table</title>');
-            printWindow.document.write('<style>');
-            printWindow.document.write('table { width: 100%; border-collapse: collapse; }');
-            printWindow.document.write('th, td { border: 1px solid black; padding: 8px; text-align: left; }');
-            printWindow.document.write('thead { background-color: #f2f2f2; }');
-            printWindow.document.write('tbody tr:nth-child(even) { background-color: #f9f9f9; }');
-            printWindow.document.write('@page { size: landscape; }');
-            printWindow.document.write('</style>');
-            printWindow.document.write('</head><body >');
-            printWindow.document.write('<h1>Employability Tracer Data</h1>');
-            printWindow.document.write(tableHTML);
-            printWindow.document.write('</body></html>');
+            const tableContent = document.getElementById('employabilityTable').outerHTML;
+
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = tableContent;
+            const rows = tempDiv.querySelectorAll('tr');
+            rows.forEach(row => {
+                if (row.lastElementChild) {
+                    row.removeChild(row.lastElementChild);
+                }
+            });
+
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>Employability Tracer Data</title>
+                    <style>
+                        /* Styling for print layout */
+                        @media print {
+                            body {
+                                margin: 0;
+                                font-family: 'Arial', sans-serif;
+                            }
+                            .header {
+                                text-align: center;
+                                margin-bottom: 20px;
+                                position: relative;
+                                padding-bottom: 10px;
+                                border-bottom: 2px solid black;
+                                margin-top: 1.5rem;
+                            }
+                            .header img {
+                                display: block;
+                                max-width: 80px;
+                                max-height: 80px;
+                            }
+                            .header h1, .header h2, .header h3, .header p {
+                                margin: 0;
+                                padding: 0;
+                            }
+                            .header h1 {
+                                font-size: 14px;
+                                font-weight: normal;
+                            }
+                            .header h2 {
+                                font-size: 26px;
+                                color: blue;
+                                font-weight: bold;
+                            }
+                            .header h3 {
+                                font-size: 18px;
+                                font-weight: bold;
+                            }
+                            .header p {
+                                font-size: 12px;
+                            }
+
+                            table {
+                                width: 100%;
+                                border-collapse: collapse;
+                                margin-top: 20px;
+                            }
+                            th, td {
+                                border: 1px solid black;
+                                padding: 10px;
+                                text-align: center;
+                            }
+                            th {
+                                background-color: #f2f2f2;
+                                font-weight: bold;
+                            }
+                            td {
+                                background-color: #ffffff;
+                            }
+                            tr:nth-child(even) td {
+                                background-color: #f9f9f9;
+                            }
+                            @page {
+                                size: letter landscape;
+                                margin: 15mm;
+                            }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="header" style="margin-top: 24px">
+                        <img src="images/capsu_logo.jpg" alt="Logo" style="display: block; margin-left: auto; margin-right: auto; max-width: 80px; max-height: 80px;">
+                        <h1>Republic of the Philippines</h1>
+                        <h2 class="university">CAPIZ STATE UNIVERSITY</h2>
+                        <h3>MAMBUSAO SATELLITE COLLEGE</h3>
+                        <p>Poblacion, Mambusao, Capiz</p>
+                        <p>website: www.capsu.edu.ph | email: mambusao@capsu.edu.ph</p>
+                    </div>
+                    <h1 style="text-align:center;">Employability Tracer Data</h1>
+                    ${tempDiv.innerHTML} <!-- Insert modified table without the "Actions" column -->
+                </body>
+                </html>
+            `);
+
             printWindow.document.close();
-            printWindow.focus();
-            printWindow.print();
+            const img = printWindow.document.querySelector('img');
+            img.onload = function() {
+                printWindow.print();
+                setTimeout(function() {
+                    printWindow.close();
+                }, 400);
+            };
         }
     </script>
 </x-app-layout>

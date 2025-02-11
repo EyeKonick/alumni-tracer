@@ -84,7 +84,7 @@ class AlumniController extends Controller
             'new_document_path_2' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
             'new_document_path_3' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
             'inclusive_from' => 'nullable|integer|min:1900|max:2099',
-            'inclusive_to' => 'nullable|integer|min:1900|max:2099',   
+            'inclusive_to' => 'nullable|integer|min:1900|max:2099',
         ]);
 
         $alumni = PersonalData::findOrFail($id);
@@ -133,6 +133,33 @@ class AlumniController extends Controller
 
         return redirect()->route('alumni.directory')->with('success', 'Alumni information updated successfully!');
     }
+
+    public function destroy($id)
+{
+    $alumni = PersonalData::findOrFail($id);
+
+    $professionalData = ProfessionalData::where('alumni_id', $id)->first();
+    if ($professionalData) {
+
+        $professionalData->skills()->detach();
+        $professionalData->delete();
+    }
+
+    $alumniSurvey = AlumniSurvey::where('alumni_id', $id)->first();
+    if ($alumniSurvey) {
+        $documentFields = ['document_path', 'document_path_2', 'document_path_3'];
+        foreach ($documentFields as $field) {
+            if ($alumniSurvey->$field) {
+                Storage::disk('public')->delete($alumniSurvey->$field);
+            }
+        }
+        $alumniSurvey->delete();
+    }
+
+    $alumni->delete();
+
+    return redirect()->route('alumni.directory')->with('success', 'Alumni record deleted successfully!');
+}
 
     public function deleteDocument(Request $request)
     {

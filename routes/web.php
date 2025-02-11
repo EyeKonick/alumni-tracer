@@ -36,6 +36,7 @@ Route::get('/alumni/export', [AlumniDirectoryController::class, 'exportAlumniAsE
 Route::get('/employability-tracer-data', [AlumniEmployabilityController::class, 'showEmployabilityTracerData'])->name('alumni.employability');
 Route::get('/employability-tracer-data/search', [AlumniEmployabilityController::class, 'search'])->name('alumni.employability.search');
 Route::get('/employability', [AlumniEmployabilityController::class, 'showEmployabilityTracerData'])->name('alumni.showEmployabilityTracerData');
+Route::get('/employability/export', [AlumniEmployabilityController::class, 'exportEmployabilityAsExcel'])->name('employability.export');
 
 Route::get('/graduate-tracer-data', [GraduateTracerController::class, 'index'])->name('graduate.tracer.data');
 

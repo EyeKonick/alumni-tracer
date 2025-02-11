@@ -148,7 +148,6 @@
                                         <th class="w-2/12 border px-2 py-1">Employer</th>
                                         <th class="w-2/12 border px-2 py-1">Employer Address</th>
                                         <th class="w-2/12 border px-2 py-1">Position</th>
-                                        <!-- Exclude "Actions" column in the print version -->
                                         <th class="w-2/12 border px-2 py-1 text-center">Actions</th>
                                     </tr>
                                 </thead>

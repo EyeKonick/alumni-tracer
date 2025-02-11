@@ -183,4 +183,69 @@ class AlumniEmployabilityController extends Controller
 
         return view('employability', compact('alumniData', 'courses', 'employmentStatuses'));
     }
+
+    public function exportEmployabilityAsExcel(Request $request)
+    {
+
+        $employabilityData = PersonalData::with(['courseGraduated', 'professionalData.employmentStatus'])
+            ->orderBy('created_at')
+            ->get();
+
+        $fileName = 'employability-tracer-data.xls';
+
+        header("Content-Type: application/vnd.ms-excel");
+        header("Content-Disposition: attachment; filename=\"$fileName\"");
+
+        ob_start();
+
+        echo '<html>';
+        echo '<head>';
+        echo '<style>';
+        echo 'table { border-collapse: collapse; width: 100%; font-family: Arial, sans-serif; }';
+        echo 'th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }';
+        echo 'th { background-color: #4CAF50; color: white; }';
+        echo 'th:hover { background-color: #45a049; }';
+        echo 'tr:nth-child(even) { background-color: #f2f2f2; }';
+        echo 'tr:hover { background-color: #ddd; }';
+        echo 'h1 { text-align: center; font-size: 24px; margin-bottom: 20px; }';
+        echo '</style>';
+        echo '</head>';
+        echo '<body>';
+
+        echo '<h1>Employability Tracer Data</h1>';
+
+        echo '<table>';
+        echo '<tr>';
+        echo '<th>No</th>';
+        echo '<th>Program/Course</th>';
+        echo '<th>Name of Graduate</th>';
+        echo '<th>Date of Graduation</th>';
+        echo '<th>Date Hired for Current Job</th>';
+        echo '<th>Employment Status Prior to Graduation</th>';
+        echo '<th>Employment Status After Graduation</th>';
+        echo '<th>Remarks</th>';
+        echo '</tr>';
+
+        foreach ($employabilityData as $index => $data) {
+            echo '<tr>';
+            echo '<td>' . ($index + 1) . '</td>';
+            echo '<td>' . htmlspecialchars($data->courseGraduated->course_name ?? 'N/A') . '</td>';
+            echo '<td>' . htmlspecialchars($data->last_name . ', ' . $data->first_name) . '</td>';
+            echo '<td>' . htmlspecialchars($data->year_graduated ?? 'N/A') . '</td>';
+            echo '<td>' . htmlspecialchars($data->professionalData->inclusive_from ?? 'N/A') . '</td>';
+            echo '<td>' . 'N/A' . '</td>';
+            echo '<td>' . htmlspecialchars($data->professionalData->employmentStatus->status_name ?? 'N/A') . '</td>';
+            echo '<td>' . htmlspecialchars($data->professionalData->present_position ?? 'N/A') . '</td>';
+            echo '</tr>';
+        }
+
+        echo '</table>';
+        echo '</body>';
+        echo '</html>';
+
+        $output = ob_get_clean();
+
+        echo $output;
+        exit;
+    }
 }
